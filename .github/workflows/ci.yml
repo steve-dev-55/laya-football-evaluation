@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Installer ruff
+        run: pip install ruff
+      - name: Vérification lint
+        run: ruff check agents/ tests/ src/
+
+  unit-tests:
+    name: Tests unitaires (core + anti-fuite + baselines)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy pandas scikit-learn PyYAML pytest
+      - name: Tests unitaires (hors e2e)
+        run: |
+          python -m pytest tests/ \
+            --ignore=tests/test_pipeline_e2e.py \
+            -q --tb=short
+
+  e2e-synthetic:
+    name: Pipeline bout-en-bout (données synthétiques, §16)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy pandas scikit-learn PyYAML pytest
+      - name: Pipeline complet sur données synthétiques
+        run: |
+          python -m pytest tests/test_pipeline_e2e.py -q --tb=short
+
+  smoke-run:
+    name: Run pipeline via script (§16, contrôle final)
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy pandas scikit-learn PyYAML
+      - name: Exécuter le pipeline §16 (données synthétiques auto-générées)
+        run: bash scripts/run_pipeline.sh ci_smoke_run
+      - name: Vérifier les artefacts produits
+        run: |
+          test -f reports/final_report.md || (echo "final_report.md manquant" && exit 1)
+          echo "Pipeline CI terminé avec succès"

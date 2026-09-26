@@ -1,0 +1,320 @@
+{
+  "created_at": "2026-09-26T09:20:08Z",
+  "errors": [],
+  "experiment_id": "laya-football-001",
+  "input_hashes": [
+    "sha256:config:e1cd0652aca3bfd1304ed1b90ae5f480ba10b029d53a82a50676f283137240e3"
+  ],
+  "output_hash": "sha256:e4e916251aeda79fc545a081b941c738ad9f474e54f5b06ab44f5de8821db461",
+  "payload": {
+    "coverage": {
+      "expected": 15,
+      "found": 15,
+      "missing_documents": []
+    },
+    "documents": [
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "EPL",
+        "document_id": "local_file:EPL:2021-2022",
+        "endpoint": "data/raw/EPL/2021-2022/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2021-2022",
+        "sha256": "1f467764c0742767b97af9ea44e064f787a54d35d9deb392cb40db38dce91ca1",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "EPL",
+        "document_id": "local_file:EPL:2022-2023",
+        "endpoint": "data/raw/EPL/2022-2023/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2022-2023",
+        "sha256": "f7db20f7f86cfaf9a616c9bdb3968e6e0b83be862e80f3efafd85119cbb24fd0",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "EPL",
+        "document_id": "local_file:EPL:2023-2024",
+        "endpoint": "data/raw/EPL/2023-2024/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2023-2024",
+        "sha256": "2ca7a7ce88be763ef4c31e3eb79998b2bd961e31a309958e51e305c98522903f",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "LaLiga",
+        "document_id": "local_file:LaLiga:2021-2022",
+        "endpoint": "data/raw/LaLiga/2021-2022/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2021-2022",
+        "sha256": "57b26341c809ee17506925b8a7ece60f6dddfef72557b4d0ff7fe2a13a204081",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "LaLiga",
+        "document_id": "local_file:LaLiga:2022-2023",
+        "endpoint": "data/raw/LaLiga/2022-2023/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2022-2023",
+        "sha256": "d9008255d9a5d21cc07ffb90b2259554473ba7d5a6ee88f456ea9b7b15c7cb8c",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "LaLiga",
+        "document_id": "local_file:LaLiga:2023-2024",
+        "endpoint": "data/raw/LaLiga/2023-2024/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2023-2024",
+        "sha256": "317b96b4e84dcc680060f4a3eb2f3b60844199cb576429ce94e266282be7d93a",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "SerieA",
+        "document_id": "local_file:SerieA:2021-2022",
+        "endpoint": "data/raw/SerieA/2021-2022/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2021-2022",
+        "sha256": "f3a1e2c7cbb136329bea2471d5627e86ad51a7dd655113659e22e68effa51810",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "SerieA",
+        "document_id": "local_file:SerieA:2022-2023",
+        "endpoint": "data/raw/SerieA/2022-2023/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2022-2023",
+        "sha256": "c7691756fe455d5badc36cb5d4f6027fe21e14fed1cc844a9ce77311feaae030",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "SerieA",
+        "document_id": "local_file:SerieA:2023-2024",
+        "endpoint": "data/raw/SerieA/2023-2024/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2023-2024",
+        "sha256": "0389ce9a1887eeea9945df773a134cd1bacb794464f6b6760ea5076518f93a2d",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Bundesliga",
+        "document_id": "local_file:Bundesliga:2021-2022",
+        "endpoint": "data/raw/Bundesliga/2021-2022/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2021-2022",
+        "sha256": "353b4812ec43a5d4c16714f0e92adc299869764415db152dcdd97923380ed163",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Bundesliga",
+        "document_id": "local_file:Bundesliga:2022-2023",
+        "endpoint": "data/raw/Bundesliga/2022-2023/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2022-2023",
+        "sha256": "beb72a19f5f3d8a8b1785e3563b24208bf6298971da63eb5a706658da1d889cf",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Bundesliga",
+        "document_id": "local_file:Bundesliga:2023-2024",
+        "endpoint": "data/raw/Bundesliga/2023-2024/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2023-2024",
+        "sha256": "3dd1399a2776f69daa5815cc986b95e856cb024fa0922f12f7080eea99a95573",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Ligue1",
+        "document_id": "local_file:Ligue1:2021-2022",
+        "endpoint": "data/raw/Ligue1/2021-2022/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2021-2022",
+        "sha256": "fc17fa41fbcc1007ca81d15aa2e8c3c7cd0804c264af117446051bb30b6009e0",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Ligue1",
+        "document_id": "local_file:Ligue1:2022-2023",
+        "endpoint": "data/raw/Ligue1/2022-2023/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2022-2023",
+        "sha256": "c2e157a8e17bb257d5fad94da6b2a58f863e3b099ae209d5d03f9a58d0d015c2",
+        "status": "ok"
+      },
+      {
+        "attempts": [
+          {
+            "attempt": 1,
+            "message": "",
+            "status": "ok"
+          }
+        ],
+        "competition": "Ligue1",
+        "document_id": "local_file:Ligue1:2023-2024",
+        "endpoint": "data/raw/Ligue1/2023-2024/matches.json",
+        "license": "CC0-1.0 (données synthétiques)",
+        "n_matches": 8,
+        "provider": "local_file",
+        "retrieved_at": "2026-09-26T09:20:08Z",
+        "season": "2023-2024",
+        "sha256": "773f1b93d286fc66882c6339567eedb8231931ada7c03805ead51bb9b27057d4",
+        "status": "ok"
+      }
+    ],
+    "notes": [
+      "Aucune transformation : les fichiers bruts de data/raw restent immuables (§0.4) ; seul leur hash SHA-256 est publié.",
+      "Un document manquant après retries bornés bloque le run (§14.2)."
+    ],
+    "source": {
+      "adapter": "local_file",
+      "license": "CC0-1.0 (données synthétiques générées localement)",
+      "provider": "local_file",
+      "raw_dir": "data/raw",
+      "retrieved_at": "2026-09-26T09:20:08Z"
+    }
+  },
+  "producer": "collector_agent",
+  "record_count": 15,
+  "run_id": "local_smoke_run",
+  "schema_version": "1.0.0",
+  "status": "validated",
+  "warnings": []
+}

@@ -1,0 +1,160 @@
+{
+  "created_at": "2026-09-26T09:20:08Z",
+  "errors": [],
+  "experiment_id": "laya-football-001",
+  "input_hashes": [
+    "sha256:raw:EPL/2021-2022:1f467764c0742767b97af9ea44e064f787a54d35d9deb392cb40db38dce91ca1",
+    "sha256:raw:EPL/2022-2023:f7db20f7f86cfaf9a616c9bdb3968e6e0b83be862e80f3efafd85119cbb24fd0",
+    "sha256:raw:EPL/2023-2024:2ca7a7ce88be763ef4c31e3eb79998b2bd961e31a309958e51e305c98522903f",
+    "sha256:raw:LaLiga/2021-2022:57b26341c809ee17506925b8a7ece60f6dddfef72557b4d0ff7fe2a13a204081",
+    "sha256:raw:LaLiga/2022-2023:d9008255d9a5d21cc07ffb90b2259554473ba7d5a6ee88f456ea9b7b15c7cb8c",
+    "sha256:raw:LaLiga/2023-2024:317b96b4e84dcc680060f4a3eb2f3b60844199cb576429ce94e266282be7d93a",
+    "sha256:raw:SerieA/2021-2022:f3a1e2c7cbb136329bea2471d5627e86ad51a7dd655113659e22e68effa51810",
+    "sha256:raw:SerieA/2022-2023:c7691756fe455d5badc36cb5d4f6027fe21e14fed1cc844a9ce77311feaae030",
+    "sha256:raw:SerieA/2023-2024:0389ce9a1887eeea9945df773a134cd1bacb794464f6b6760ea5076518f93a2d",
+    "sha256:raw:Bundesliga/2021-2022:353b4812ec43a5d4c16714f0e92adc299869764415db152dcdd97923380ed163",
+    "sha256:raw:Bundesliga/2022-2023:beb72a19f5f3d8a8b1785e3563b24208bf6298971da63eb5a706658da1d889cf",
+    "sha256:raw:Bundesliga/2023-2024:3dd1399a2776f69daa5815cc986b95e856cb024fa0922f12f7080eea99a95573",
+    "sha256:raw:Ligue1/2021-2022:fc17fa41fbcc1007ca81d15aa2e8c3c7cd0804c264af117446051bb30b6009e0",
+    "sha256:raw:Ligue1/2022-2023:c2e157a8e17bb257d5fad94da6b2a58f863e3b099ae209d5d03f9a58d0d015c2",
+    "sha256:raw:Ligue1/2023-2024:773f1b93d286fc66882c6339567eedb8231931ada7c03805ead51bb9b27057d4",
+    "sha256:canonical:EPL/2021-2022:8e4817ac772038d62a27a7b630033f5e35fd6c8611762e0b0432d2e3ee994139",
+    "sha256:canonical:EPL/2022-2023:cac2a070343a88eec894bade9188761e125061d1f24d8373440e5d3bb1b674a3",
+    "sha256:canonical:EPL/2023-2024:f68f5685b3ecc5226524a95acb7037d280ee07ad2f19c31975978281177432cf",
+    "sha256:canonical:LaLiga/2021-2022:a4e8aeb911ff0da9625f80555f763dca9c1be7e5441d4da9cfc17e936088748e",
+    "sha256:canonical:LaLiga/2022-2023:e5b838da834f0985a0952a0a85d9d00341a8a752dfdf6fe3eb64cf0808433cc3",
+    "sha256:canonical:LaLiga/2023-2024:af4bc76d602b12ae66446f22cb5ae4b9d99230cda626183be79b3f72484057fd",
+    "sha256:canonical:SerieA/2021-2022:adecbbbcbda1fc12a301b072c65cae9d005d94c6542e3cb99abedcbe04666922",
+    "sha256:canonical:SerieA/2022-2023:442d9339ef231265aea231e70884a5664c8e0ac7ab7f7e7449eb44bbfaafb37c",
+    "sha256:canonical:SerieA/2023-2024:c2b35687b567023a778c243f08bac00e1d18a6a896bf1a8da5395a86b8cf3eab",
+    "sha256:canonical:Bundesliga/2021-2022:b0a13f37e7af8a9a9184d75d897e461ffbca9144d2ac8553b018656aee565e79",
+    "sha256:canonical:Bundesliga/2022-2023:727c20fae6ed4dd57a88c0f34701f6f3eb1fa43b20b1fec7298c256864df1a50",
+    "sha256:canonical:Bundesliga/2023-2024:99050dc894a68c8f31b29d99192b45a419907c4762618bde580c1969ee76be6a",
+    "sha256:canonical:Ligue1/2021-2022:1f28434a51facbc7b1e97f30a8b7c38ee4f6d5569592d9c2b2d7b3388762f909",
+    "sha256:canonical:Ligue1/2022-2023:6e94f7781630816450226adc3a1ab8b6c040f8d1f4c74890dcad95fab4aed3a8",
+    "sha256:canonical:Ligue1/2023-2024:a3a4ac6db87814bdf8effe5cfec621b568b5313754901edfe06fe3b8cef1e1ea"
+  ],
+  "output_hash": "sha256:7ec92ebf6f33d1831bd59bf4242dfb89b3aa8d52e113c646dca2dcc1193875c8",
+  "payload": {
+    "counting_conventions": {
+      "bench_cards": "exclus de la cible (§3.5)",
+      "goals": "buts, penalties et csc comptés pour l'équipe bénéficiaire (§3.5)",
+      "second_yellow": "compté comme jaune si identifiable (annexe B)"
+    },
+    "counts": {
+      "collected": 120,
+      "duplicates": 0,
+      "events": 1116,
+      "excluded": 0,
+      "included": 120,
+      "statistics": 1440
+    },
+    "deduplication_keys": {
+      "match_events": "(match_id, source_event_id)",
+      "match_statistics": "(match_id, elapsed_seconds, team)",
+      "matches": "match_id"
+    },
+    "deduplications": [],
+    "exclusions": [],
+    "max_stratum_missing_rate": 0.0,
+    "per_stratum": {
+      "Bundesliga/2021-2022": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "Bundesliga/2022-2023": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "Bundesliga/2023-2024": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "EPL/2021-2022": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "EPL/2022-2023": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "EPL/2023-2024": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "LaLiga/2021-2022": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "LaLiga/2022-2023": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "LaLiga/2023-2024": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "Ligue1/2021-2022": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "Ligue1/2022-2023": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "Ligue1/2023-2024": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "SerieA/2021-2022": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "SerieA/2022-2023": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      },
+      "SerieA/2023-2024": {
+        "collected": 8,
+        "duplicates": 0,
+        "excluded": 0,
+        "included": 8
+      }
+    },
+    "threshold_stratum_missing_rate": 0.1
+  },
+  "producer": "cleaner_agent",
+  "record_count": 120,
+  "run_id": "local_smoke_run",
+  "schema_version": "1.0.0",
+  "status": "validated",
+  "warnings": []
+}

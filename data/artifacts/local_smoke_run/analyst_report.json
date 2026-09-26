@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-09-26T09:20:35Z",
+  "errors": [],
+  "experiment_id": "laya-football-001",
+  "input_hashes": [
+    "sha256:baselines_run:bbbf1486373a71c2ff86fe51988080ded4af7ecc994c6801cc46df5bb41a58cf",
+    "sha256:cleaning_report:63d1410962b6012c42f7af4334d9b3b9ec962da795210ec0845cc4abe5f0338d",
+    "sha256:collector_coverage:ad54f449cf9a7fa11485d2a8c8613e79b8197089c1e6662b434d9f1f893b5244",
+    "sha256:evaluation_report:a9a31002fdfceb546f0e215fe64a7d4e40ec0a129efbc13ea9f8559dfa4c1cdb",
+    "sha256:laya_run:a6200769bd2ec2e46c3b9fd3f01376332d3043c34efc44b47e849d19452d8bdd",
+    "sha256:pre_match_validation:1534b72df2c7d59fee422855e4221ea99aafa743651ac2d61dd21f35f2747bb0",
+    "sha256:repetition_audit:55843bde619e031fee1dbb66f935d7d2c98808b3b6d7364e7b2fa66383542359",
+    "sha256:snapshot_validation:f6a9c8a4f1360dc1d57be2650b1e94c464a4fd4b76ff4445b2950c65406ea01d"
+  ],
+  "output_hash": "sha256:71bac52bdfdf30df48a88bdeee3f369e8f8e77056c0cb5adbd65f5e74286cd99",
+  "payload": {
+    "error_log_entries": 0,
+    "inputs_missing": [],
+    "inputs_used": [
+      "baselines_run",
+      "cleaning_report",
+      "collector_coverage",
+      "evaluation_report",
+      "laya_run",
+      "pre_match_validation",
+      "repetition_audit",
+      "snapshot_validation"
+    ],
+    "n_sections": 17,
+    "note": "Le rapport ne recalcule aucune métrique : agrégats, intervalles et comparaisons proviennent de l'évaluateur (§14.9).",
+    "report_path": "reports/final_report.md",
+    "report_sha256": "3900423087ac3b7a5c26032f43fe527d8410374e4121c4777033d2bb391112e2",
+    "run_id": "local_smoke_run",
+    "sections": [
+      "1. Résumé exécutif",
+      "2. Questions et hypothèses pré-enregistrées",
+      "3. Sources, périmètre et exclusions",
+      "4. Définition point-in-time et contrôles anti-fuite",
+      "5. Version de Laya et tâches typées",
+      "6. Baselines et découpage temporel",
+      "7. Métriques et plan statistique",
+      "8. Résultats globaux",
+      "9. Résultats par cutoff, compétition et tier",
+      "10. Calibration",
+      "11. Robustesse et réactions aux événements",
+      "12. Analyse des erreurs",
+      "13. Résultats confirmatoires",
+      "14. Analyses exploratoires",
+      "15. Limites",
+      "16. Conclusion",
+      "17. Annexes de reproductibilité"
+    ]
+  },
+  "producer": "analyst_agent",
+  "record_count": 17,
+  "run_id": "local_smoke_run",
+  "schema_version": "1.0.0",
+  "status": "validated",
+  "warnings": []
+}

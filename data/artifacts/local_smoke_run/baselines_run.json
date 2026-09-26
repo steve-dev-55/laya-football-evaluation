@@ -1,0 +1,176 @@
+{
+  "created_at": "2026-09-26T09:20:22Z",
+  "errors": [],
+  "experiment_id": "laya-football-001",
+  "input_hashes": [
+    "sha256:snapshot_validation:f6a9c8a4f1360dc1d57be2650b1e94c464a4fd4b76ff4445b2950c65406ea01d"
+  ],
+  "output_hash": "sha256:9017a18c7d0eb2bcab48307cdff7acd284d7232355dbc285f9ef142dd6cee947",
+  "payload": {
+    "defaults_if_no_history": {
+      "corners_mean": 10.6,
+      "lambda_away": 1.15,
+      "lambda_home": 1.35,
+      "shrinkage_prior_matches": 5,
+      "yellows_mean": 3.5
+    },
+    "model_versions": {
+      "current_score": "current-score-v1",
+      "historical_frequency": "hist-freq-v1",
+      "logistic_1x2": "logistic-1x2-v1",
+      "persistence": "persistence-v1",
+      "poisson": "poisson-v1",
+      "uniform": "uniform-v1"
+    },
+    "models": {
+      "current_score": {
+        "n_invalid": 0,
+        "n_predictions": 4569,
+        "n_valid": 4569
+      },
+      "historical_frequency": {
+        "n_invalid": 0,
+        "n_predictions": 4569,
+        "n_valid": 4569
+      },
+      "logistic_1x2": {
+        "n_invalid": 0,
+        "n_predictions": 1503,
+        "n_valid": 1503
+      },
+      "persistence": {
+        "n_invalid": 0,
+        "n_predictions": 4569,
+        "n_valid": 4569
+      },
+      "poisson": {
+        "n_invalid": 0,
+        "n_predictions": 4569,
+        "n_valid": 4569
+      },
+      "uniform": {
+        "n_invalid": 0,
+        "n_predictions": 4569,
+        "n_valid": 4569
+      }
+    },
+    "registered_conversion_rules": {
+      "current_score": "masse 1 sur la catégorie courante (dégénérée)",
+      "persistence": "Poisson centré sur courant + moyenne ligue × reste"
+    },
+    "training": {
+      "logistic_1x2": {
+        "hyperparameters": {
+          "C": 1.0,
+          "max_iter": 1000,
+          "standardize": true
+        },
+        "max_kickoff": "2022-08-27T21:00:00Z",
+        "min_kickoff": "2021-08-14T13:00:00Z",
+        "n_train_matches": 80,
+        "snapshot_filter": "cutoff_seconds == 0 and tier == 'B'",
+        "train_match_ids": [
+          "0b201b148a8ba40859101a03f11187e798b764ea6e2c5246975b62619b8b028d",
+          "117fdce79eafc1ed8ac199d8745cb45b447621e5925bc8187e07ef643948e030",
+          "11c38edfa7561a7215535fc031e828150b198bcb30f4e11a3b4b327523926671",
+          "148d361080a93bc4837b281947712ee6f26af9ceba13d744e6cfdd47c3b8b19c",
+          "187cb27a696f5cc108ec4470e12110aba7d36696bdd5a161b8abbd3ec9df3457",
+          "1a83ffc025b944669eee7d27b10cabf7aa6bede80e8a3abac8417d0ca1069709",
+          "1e53712749e076e28664f10e48c17b346f6ff4991b000d9d9bf9cd7b7d404a5a",
+          "20ac93a86d775e1806d1b7359be321c31cb8d0eb927a0b7fe15f7b0334a80fe3",
+          "277111318abf057039a9a833995a9e89a6d49c28f446791e759f29f2eedd9f0f",
+          "2819a344bca941369760330b8367fd2c97b3e27415efa54421a63136f21925ce",
+          "296d8bbd220e7e47419e5e42b8ae4a86546814f4106177df0096c4b1ea77128c",
+          "2c567823310ad298037742d3589954541e3be5b251e66bcdaac24d6c1d6fe02c",
+          "30bcd4c235f2c31088814f29903d5d0550edc97ee38a9285176d5ab171486ae4",
+          "32fcdad8d4b25aa0cf1db102b3fd4612638edb832f2f4473cf2ffc390755cc71",
+          "3894c4c2040274fcf39088be11bdcad9e1e96734bd79432a30076bdb2c2ff9b1",
+          "3c0408bd6044bc5aa9e7f6d158ebfe7769431b168f7d2968774736cdb944f8ae",
+          "3ca798c277ce1094ea704419e7f3d7b5c404e4bf0464b2831c26972a4727ce91",
+          "3d551221ac8762aef7ed9de3232a4ba9d0d2e62a9cbc9dfe7046c3a4943ac818",
+          "46d25b7cacc5c6286532e179644935a25f8ef1de8d9aaa4d6c4afdfb9f735d08",
+          "4d00da82f306dccc669c2405354a31aec6d233a61309e14d0625fe8eb82b3aee",
+          "521dc536868e59a96b6ad6de9a4b074e2f62883a7309fdea4fef33372d2c5e6d",
+          "561f8d1bfa3b2878d638604529234bfbfabfc0fd6e234c7600e7973d5a60db46",
+          "626589a6ae625be9ad673330f8823fe1a716bccbab2eb12591e86d8561a2ece2",
+          "63f65413592e43b8d43c0358c1833afc5696e001e283c1ee5cfef20e5c6f87c5",
+          "6615ab9e400c122d707f84c4eb964786d1d182f27c53f490d008b4709dd51eb7",
+          "66654513d78b8c94250c1e953e3d272829397d58e1e6782e89456103393199fd",
+          "6a80bd089e5aab4ca37a7ff9c67e8d3ddaf713f8841749b41140a58709888e60",
+          "6c1ff5577c3e22e51697137c4478f188b3dc8cebed8ed67b89be5914edbdc525",
+          "6d362776e1d0768e99829e658ed0cf62aca27f12b9ccc28c00499d1d94d7501c",
+          "6de33298ce90a4a045dc551d56a85bc039b461ee6f6b9474c137c3ed63541d69",
+          "6e61bed05885fa967f733e26bafa600618cf87d8d223c6384f93fb483aabbc78",
+          "73cce1673c4dd030c6269c3688804b3a47ad9aca66ed8402a7dc9c044d081345",
+          "759b9bc6d212c77b03ba4f86e6c07e23aa4aac76541c7640162c8e41de9f657f",
+          "77d4e27eff30ba50f2a7be156d103250ba556137f24a492ed1d2253e41c96133",
+          "7f48ce2759c5ea0307f82052c499ff6afa77cf17297651875da2eaf64e90368c",
+          "7f81408a14324cc7f63fcf5b656dcbe04421ae86997afa0e6c7c886fc7d20649",
+          "86afc956387cab797a979961a2eaa48e2643a9a63f92b41bfd24927a88066ade",
+          "8c6e557a340dc756b8a8946bd9d2b285e4b4a5da4f85be0e3235fcb20d83e8ec",
+          "914077e009bb6d31451ee6af0cddd4f5f213a315a6b4779703c4d4c946f56053",
+          "92319b1ef6b3d40697c9c8776fe6e2f50e15b67bfa4f071e127391d33cf1e4a9",
+          "95f1cd8744ec8fd413a8c8aba9effb11a2d2c50c2f843a08049ffa2e8d553c63",
+          "979898675dbd26fbe73c54309418f67d932a6ef89c5885fc591aaef78bcd412e",
+          "984adaf52640b052b84c9ffb0c6d40a57e4c537a3cdfd34d76b1d3ca242cd938",
+          "98557bce8bba5e9b28c1a315c4792c1bddd2796d7eca92d1eb1143ae9c32e2fb",
+          "9d5bee0c3c6b582976917339b9ea8003b33a4fca64915b7ee94a66a67f3c3827",
+          "9dfbf113431ec57acf3d0205a6ac9f7d5f846315d70601f8dc8ee6d6b45728a5",
+          "9e4465dfb5ab88d97182c31c5cf897a1a756b53affdb2c2e4ce6a681e5e94522",
+          "a39a493f0166810d4a8a70def769509219315556460c74fcf40a25ba4f014c26",
+          "a7790e142fcbeb568043563cf32917b63c7c2b5618e77879d1fdaad26ea9b54e",
+          "a816227c6b20447485ee9c3aa69d6641df36e9f84c7ec55c15fdcc04f2dc5bf6",
+          "a84fb1bf2f3a61efaf37b24a8809a103843f31607dd9711b49b0d469e9d77993",
+          "a86848de080bf9cb3a17e8757eb8ccdb28da22726fc794bba4d7ec0e1d2830bf",
+          "a9888207e905e7b27df5b9a055899f258b8821b1f38b482090b61ab557ae9cbc",
+          "ac5d50886bf90ece5fd0668557dc11b419d19f41f13fffde4bf2ea8873499e93",
+          "afda891a6756bff1714bf4bee8a792c938cf72c4f372abe392204210cc6ad2a9",
+          "ba98131020f9470e2d1369b1d873c134dc8d8de90f4567ddfa2e3d80f2a3fda5",
+          "be1daf18f8287a1690eaa47b587a9eef69d59d703934b979829cd740d1a8d873",
+          "beb2dc2f82b26f8f9a77184fa183b765ec48122f8cc37f7f6bffc1691b80ec9b",
+          "bfa47aa81391aba7f0cb3605bb665eed3a661ed6eb6427f3c9b10ec79c246f11",
+          "c06a9655bef197e9e3aab661e8e632a11872213e2e2c029e867b9e5b15b8efe9",
+          "c0bc04fd983e7e88ac0dcf089934ba8ab52a105a9ea59fdec1d155fbb5da76f9",
+          "cc0973279069da8b56ae26908b6a026de36480be181f77aff11fb0c463cfcd57",
+          "ce14bbda09168feb2310c82a4e552708b7c2b1a9110ecd0788bb2b0d6899e620",
+          "d01aed0b28fe56d09a4ff867a475bd97ae678f8b1df9e4f21dd2a3de8ff0ab94",
+          "d35806f184e75a69ecc29d02be058dcbcef487e7c9e6db3d054e90910acd5d84",
+          "d6738498254f5929a16da120c358e1c264c4ba6bda93ed7e29625d7235581b99",
+          "d84aef9b94abfcf9b58d18c9b0c309b6f7744a70c1f673e3fdf904b8e588332e",
+          "d8ae751468d96e4fb4e30c0696e285a68ad16b4030949a445a5856f60d419894",
+          "db0af09bf59a2465ebb7efa8206b1bcfe7110d0e526182629e71346487ebbfef",
+          "dbb01c3381728a080aebaf36a9a41d2ed58819bcfb133e53113b6f46d73b7d8c",
+          "dfbf54ffa2d4dc0f5be3068998af2d8130273d6a902884eb6c4c099222871100",
+          "e15257d28e95203f8daa51eacc9939a1630e7e777fcd15b3fd797a52d6264499",
+          "e1c2d11d34f8171e4493a52bb86896d60d5daa91e341183952c0c0779a9b50c7",
+          "e70b8a21e8497b8411a67c8dbfb3f47d5c08f57289340fa09040112395c8a4bd",
+          "ea41ccdfa3b931a587d7021c546097cee4df479e32573b306858e4c5bc0ff6b9",
+          "eda13968ef5bb4f47052f864c454acfb91deef89bd3f0d0544d4dbbef1f1cf72",
+          "eee74fd67d94a676f67e0fedc6572b3a03a9360337b33209c1ec09446132a212",
+          "f2f925fea5f02deaf34684456fb037593403bb9bf56f0928565cb999e1ee37b1",
+          "fa5e9b97478c3e06fefeccf28240740522c091dceafd5da6cbca6234c9db98b1",
+          "ffb27a995dfc60e95ca9c639c00a9de5eb9a16737361280e97c6124c8d7720bc"
+        ],
+        "train_seasons": [
+          "2021-2022",
+          "2022-2023"
+        ],
+        "training_rows": 80
+      },
+      "note": "Les modèles point-in-time recalculent leur fenêtre pour chaque match (available_timestamp < kickoff, §10.4) ; la régression logistique est ajustée uniquement sur les saisons d'entraînement et prédit uniquement la saison test.",
+      "point_in_time_models": [
+        "uniform",
+        "historical_frequency",
+        "current_score",
+        "persistence",
+        "poisson"
+      ]
+    }
+  },
+  "producer": "baselines_agent",
+  "record_count": 24348,
+  "run_id": "local_smoke_run",
+  "schema_version": "1.0.0",
+  "status": "validated",
+  "warnings": []
+}

@@ -1,0 +1,750 @@
+{
+  "created_at": "2026-09-26T09:20:09Z",
+  "errors": [],
+  "experiment_id": "laya-football-001",
+  "input_hashes": [
+    "sha256:cleaning_report:63d1410962b6012c42f7af4334d9b3b9ec962da795210ec0845cc4abe5f0338d"
+  ],
+  "output_hash": "sha256:7f741c0cf885ae41ffe5c31ec665eb94ff35adab86ebf9f1d94bd542564b45c8",
+  "payload": {
+    "counts": {
+      "blocked_matches": 0,
+      "contexts": 240,
+      "matches": 120,
+      "matches_without_history": 1
+    },
+    "feature_version": "v1",
+    "form_window": 10,
+    "missing_data_rule": "null sans imputation (décision annexe B, §7.2)",
+    "per_match": {
+      "0b201b148a8ba40859101a03f11187e798b764ea6e2c5246975b62619b8b028d": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-23T17:00:00Z",
+        "n_sources": 30,
+        "violations": []
+      },
+      "0dcb1340e4be3dd5c7863f99b64599c8df363c1b3555779b287397dbb437af7a": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-16T17:00:00Z",
+        "n_sources": 18,
+        "violations": []
+      },
+      "10ad63a42ae21ec48ab57e9089b16a283cfd5ea35ad2d643f80c231e7ac11e14": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-20T15:00:00Z",
+        "n_sources": 27,
+        "violations": []
+      },
+      "117fdce79eafc1ed8ac199d8745cb45b447621e5925bc8187e07ef643948e030": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-25T13:00:00Z",
+        "n_sources": 33,
+        "violations": []
+      },
+      "11c38edfa7561a7215535fc031e828150b198bcb30f4e11a3b4b327523926671": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-20T19:00:00Z",
+        "n_sources": 18,
+        "violations": []
+      },
+      "148d361080a93bc4837b281947712ee6f26af9ceba13d744e6cfdd47c3b8b19c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-23T21:00:00Z",
+        "n_sources": 32,
+        "violations": []
+      },
+      "187cb27a696f5cc108ec4470e12110aba7d36696bdd5a161b8abbd3ec9df3457": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-25T17:00:00Z",
+        "n_sources": 35,
+        "violations": []
+      },
+      "1a83ffc025b944669eee7d27b10cabf7aa6bede80e8a3abac8417d0ca1069709": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-15T15:00:00Z",
+        "n_sources": 9,
+        "violations": []
+      },
+      "1e53712749e076e28664f10e48c17b346f6ff4991b000d9d9bf9cd7b7d404a5a": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-13T15:00:00Z",
+        "n_sources": 4,
+        "violations": []
+      },
+      "206f0417e73421958f86be742109f5768d7a34d4d0ff1f5c168fdfd62c6ff390": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-14T21:00:00Z",
+        "n_sources": 15,
+        "violations": []
+      },
+      "20ac93a86d775e1806d1b7359be321c31cb8d0eb927a0b7fe15f7b0334a80fe3": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-25T15:00:00Z",
+        "n_sources": 34,
+        "violations": []
+      },
+      "277111318abf057039a9a833995a9e89a6d49c28f446791e759f29f2eedd9f0f": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-15T21:00:00Z",
+        "n_sources": 12,
+        "violations": []
+      },
+      "2819a344bca941369760330b8367fd2c97b3e27415efa54421a63136f21925ce": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-17T21:00:00Z",
+        "n_sources": 17,
+        "violations": []
+      },
+      "296d8bbd220e7e47419e5e42b8ae4a86546814f4106177df0096c4b1ea77128c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-22T19:00:00Z",
+        "n_sources": 23,
+        "violations": []
+      },
+      "2c567823310ad298037742d3589954541e3be5b251e66bcdaac24d6c1d6fe02c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-24T15:00:00Z",
+        "n_sources": 26,
+        "violations": []
+      },
+      "30bcd4c235f2c31088814f29903d5d0550edc97ee38a9285176d5ab171486ae4": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-20T17:00:00Z",
+        "n_sources": 17,
+        "violations": []
+      },
+      "32fcdad8d4b25aa0cf1db102b3fd4612638edb832f2f4473cf2ffc390755cc71": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-14T17:00:00Z",
+        "n_sources": 2,
+        "violations": []
+      },
+      "35aaed8af4b61fa713db8f7672ec3907f5ae16188146f567da50b433917d125b": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-18T13:00:00Z",
+        "n_sources": 21,
+        "violations": []
+      },
+      "3894c4c2040274fcf39088be11bdcad9e1e96734bd79432a30076bdb2c2ff9b1": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-16T15:00:00Z",
+        "n_sources": 6,
+        "violations": []
+      },
+      "3c0408bd6044bc5aa9e7f6d158ebfe7769431b168f7d2968774736cdb944f8ae": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-13T13:00:00Z",
+        "n_sources": 3,
+        "violations": []
+      },
+      "3ca798c277ce1094ea704419e7f3d7b5c404e4bf0464b2831c26972a4727ce91": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-18T21:00:00Z",
+        "n_sources": 14,
+        "violations": []
+      },
+      "3d551221ac8762aef7ed9de3232a4ba9d0d2e62a9cbc9dfe7046c3a4943ac818": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-28T15:00:00Z",
+        "n_sources": 36,
+        "violations": []
+      },
+      "3f788bee5c77cfae1d58b7986cd82009e4e3e4e41165c6f0081196b1de1c212d": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-12T21:00:00Z",
+        "n_sources": 10,
+        "violations": []
+      },
+      "46d25b7cacc5c6286532e179644935a25f8ef1de8d9aaa4d6c4afdfb9f735d08": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-16T17:00:00Z",
+        "n_sources": 7,
+        "violations": []
+      },
+      "4d00da82f306dccc669c2405354a31aec6d233a61309e14d0625fe8eb82b3aee": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-23T19:00:00Z",
+        "n_sources": 31,
+        "violations": []
+      },
+      "4ddd2a236810bd8c9ea3f57acc0098bba60abff3bc8eaebb3c9b4797801cfb25": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-12T17:00:00Z",
+        "n_sources": 8,
+        "violations": []
+      },
+      "50882ac0789eabe67f468c09d782db045e661569ecb8a100524e8ce8c269ef53": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-20T13:00:00Z",
+        "n_sources": 26,
+        "violations": []
+      },
+      "515c320928d573b2ef5e5071f59620d002ac3956298bce453b985f7b5041efdb": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-26T17:00:00Z",
+        "n_sources": 43,
+        "violations": []
+      },
+      "51cdce698f4a48fc619406a057ee229980204abec4ed860f0bc115c5190ac1af": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-26T21:00:00Z",
+        "n_sources": 45,
+        "violations": []
+      },
+      "521dc536868e59a96b6ad6de9a4b074e2f62883a7309fdea4fef33372d2c5e6d": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-20T21:00:00Z",
+        "n_sources": 19,
+        "violations": []
+      },
+      "561f8d1bfa3b2878d638604529234bfbfabfc0fd6e234c7600e7973d5a60db46": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-24T19:00:00Z",
+        "n_sources": 28,
+        "violations": []
+      },
+      "597d2c86aa3726db8bec1bd037ab364194b09bc0cba535348e8b6ea19884596e": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-16T19:00:00Z",
+        "n_sources": 19,
+        "violations": []
+      },
+      "626589a6ae625be9ad673330f8823fe1a716bccbab2eb12591e86d8561a2ece2": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-13T19:00:00Z",
+        "n_sources": 6,
+        "violations": []
+      },
+      "63f65413592e43b8d43c0358c1833afc5696e001e283c1ee5cfef20e5c6f87c5": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-27T17:00:00Z",
+        "n_sources": 40,
+        "violations": []
+      },
+      "6615ab9e400c122d707f84c4eb964786d1d182f27c53f490d008b4709dd51eb7": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-24T21:00:00Z",
+        "n_sources": 29,
+        "violations": []
+      },
+      "66654513d78b8c94250c1e953e3d272829397d58e1e6782e89456103393199fd": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-14T19:00:00Z",
+        "n_sources": 3,
+        "violations": []
+      },
+      "6a80bd089e5aab4ca37a7ff9c67e8d3ddaf713f8841749b41140a58709888e60": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-13T21:00:00Z",
+        "n_sources": 7,
+        "violations": []
+      },
+      "6c1ff5577c3e22e51697137c4478f188b3dc8cebed8ed67b89be5914edbdc525": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-21T19:00:00Z",
+        "n_sources": 26,
+        "violations": []
+      },
+      "6d362776e1d0768e99829e658ed0cf62aca27f12b9ccc28c00499d1d94d7501c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-21T13:00:00Z",
+        "n_sources": 23,
+        "violations": []
+      },
+      "6de33298ce90a4a045dc551d56a85bc039b461ee6f6b9474c137c3ed63541d69": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-19T13:00:00Z",
+        "n_sources": 18,
+        "violations": []
+      },
+      "6e61bed05885fa967f733e26bafa600618cf87d8d223c6384f93fb483aabbc78": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-26T13:00:00Z",
+        "n_sources": 30,
+        "violations": []
+      },
+      "73cce1673c4dd030c6269c3688804b3a47ad9aca66ed8402a7dc9c044d081345": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-22T21:00:00Z",
+        "n_sources": 24,
+        "violations": []
+      },
+      "7408dc6b36913f0a1a193090ddcb5bbbc1af25be5051d7ea4aa43d279d8c4270": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-26T13:00:00Z",
+        "n_sources": 41,
+        "violations": []
+      },
+      "759b9bc6d212c77b03ba4f86e6c07e23aa4aac76541c7640162c8e41de9f657f": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-14T21:00:00Z",
+        "n_sources": 4,
+        "violations": []
+      },
+      "77d4e27eff30ba50f2a7be156d103250ba556137f24a492ed1d2253e41c96133": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-13T17:00:00Z",
+        "n_sources": 5,
+        "violations": []
+      },
+      "7886f9d67014739c5388e391bb08eecffcf3dd52fb1e987cc8a4db9be0d343d3": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-18T19:00:00Z",
+        "n_sources": 24,
+        "violations": []
+      },
+      "7904168db126fb9abf3078176c5480cd9fb519b8b7763870b6187ac2533a90b2": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-22T17:00:00Z",
+        "n_sources": 33,
+        "violations": []
+      },
+      "7f15faef0ab1e5a61c0ccf9d78fffa753fc34985736f2b7a1c53ed5012056dbf": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-16T21:00:00Z",
+        "n_sources": 20,
+        "violations": []
+      },
+      "7f48ce2759c5ea0307f82052c499ff6afa77cf17297651875da2eaf64e90368c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-27T15:00:00Z",
+        "n_sources": 39,
+        "violations": []
+      },
+      "7f81408a14324cc7f63fcf5b656dcbe04421ae86997afa0e6c7c886fc7d20649": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-19T17:00:00Z",
+        "n_sources": 20,
+        "violations": []
+      },
+      "82472c697078e18a5645b40c4b274a1a997bf381da336c3e2ef533a7c32bf4a4": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-12T15:00:00Z",
+        "n_sources": 7,
+        "violations": []
+      },
+      "84b49bc0245aab1e7ce12d11c314bd22a87ccd0045a31999847462d7a1d0368e": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-22T13:00:00Z",
+        "n_sources": 31,
+        "violations": []
+      },
+      "859f5a6b7a61bc55f4f7cf69269d821abcc11d54ef6ec57a6330b43636db63ce": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-22T19:00:00Z",
+        "n_sources": 34,
+        "violations": []
+      },
+      "86afc956387cab797a979961a2eaa48e2643a9a63f92b41bfd24927a88066ade": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-26T17:00:00Z",
+        "n_sources": 32,
+        "violations": []
+      },
+      "8a2a42f6b7af59c3b8caf89a3bf0b93b99902237056530e59b43da2f13e7cfa1": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-18T21:00:00Z",
+        "n_sources": 25,
+        "violations": []
+      },
+      "8c6e557a340dc756b8a8946bd9d2b285e4b4a5da4f85be0e3235fcb20d83e8ec": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-14T15:00:00Z",
+        "n_sources": 1,
+        "violations": []
+      },
+      "914077e009bb6d31451ee6af0cddd4f5f213a315a6b4779703c4d4c946f56053": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-26T15:00:00Z",
+        "n_sources": 31,
+        "violations": []
+      },
+      "92319b1ef6b3d40697c9c8776fe6e2f50e15b67bfa4f071e127391d33cf1e4a9": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-15T13:00:00Z",
+        "n_sources": 8,
+        "violations": []
+      },
+      "94e1c0f34b045666f8e9a8c88525d6fa4167011d79aeb49c12ed3b129a7434f7": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-12T13:00:00Z",
+        "n_sources": 6,
+        "violations": []
+      },
+      "95f1cd8744ec8fd413a8c8aba9effb11a2d2c50c2f843a08049ffa2e8d553c63": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-22T13:00:00Z",
+        "n_sources": 20,
+        "violations": []
+      },
+      "979898675dbd26fbe73c54309418f67d932a6ef89c5885fc591aaef78bcd412e": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-18T15:00:00Z",
+        "n_sources": 11,
+        "violations": []
+      },
+      "984adaf52640b052b84c9ffb0c6d40a57e4c537a3cdfd34d76b1d3ca242cd938": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-28T19:00:00Z",
+        "n_sources": 38,
+        "violations": []
+      },
+      "98557bce8bba5e9b28c1a315c4792c1bddd2796d7eca92d1eb1143ae9c32e2fb": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-27T19:00:00Z",
+        "n_sources": 41,
+        "violations": []
+      },
+      "9a66172fb4107606d2ada8e8151dc63fcabe0d9af5d8d07f2ffbd5f4c91a126f": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-24T15:00:00Z",
+        "n_sources": 37,
+        "violations": []
+      },
+      "9b5701c0db2e14e2965c2c2b4fac4b9b79a593f2d7d32d4418297d71b843e128": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-20T19:00:00Z",
+        "n_sources": 29,
+        "violations": []
+      },
+      "9d5bee0c3c6b582976917339b9ea8003b33a4fca64915b7ee94a66a67f3c3827": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-26T19:00:00Z",
+        "n_sources": 33,
+        "violations": []
+      },
+      "9d9025bc5d35f1267213927416a3564aba2d23f2ba7e14e166790772215af06c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-18T17:00:00Z",
+        "n_sources": 23,
+        "violations": []
+      },
+      "9dfbf113431ec57acf3d0205a6ac9f7d5f846315d70601f8dc8ee6d6b45728a5": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-20T15:00:00Z",
+        "n_sources": 16,
+        "violations": []
+      },
+      "9e4465dfb5ab88d97182c31c5cf897a1a756b53affdb2c2e4ce6a681e5e94522": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-19T19:00:00Z",
+        "n_sources": 21,
+        "violations": []
+      },
+      "a39a493f0166810d4a8a70def769509219315556460c74fcf40a25ba4f014c26": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-25T19:00:00Z",
+        "n_sources": 36,
+        "violations": []
+      },
+      "a4651d12ff4b4a592b04938981777ed84109f83c8bb6deca48fd8963ca43dadc": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-24T21:00:00Z",
+        "n_sources": 40,
+        "violations": []
+      },
+      "a7790e142fcbeb568043563cf32917b63c7c2b5618e77879d1fdaad26ea9b54e": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-17T13:00:00Z",
+        "n_sources": 13,
+        "violations": []
+      },
+      "a816227c6b20447485ee9c3aa69d6641df36e9f84c7ec55c15fdcc04f2dc5bf6": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-26T21:00:00Z",
+        "n_sources": 34,
+        "violations": []
+      },
+      "a84fb1bf2f3a61efaf37b24a8809a103843f31607dd9711b49b0d469e9d77993": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-22T17:00:00Z",
+        "n_sources": 22,
+        "violations": []
+      },
+      "a86848de080bf9cb3a17e8757eb8ccdb28da22726fc794bba4d7ec0e1d2830bf": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-21T21:00:00Z",
+        "n_sources": 27,
+        "violations": []
+      },
+      "a9888207e905e7b27df5b9a055899f258b8821b1f38b482090b61ab557ae9cbc": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-15T17:00:00Z",
+        "n_sources": 10,
+        "violations": []
+      },
+      "abdda613eed783d282f241ecbdb7f794d494f8c407412da3889d76349bb5f47c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-24T19:00:00Z",
+        "n_sources": 39,
+        "violations": []
+      },
+      "ac5d50886bf90ece5fd0668557dc11b419d19f41f13fffde4bf2ea8873499e93": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-28T17:00:00Z",
+        "n_sources": 37,
+        "violations": []
+      },
+      "af1fa5a30015ac42ae3300bfec22c4a9b9c9c37f0a7ae00811b606409395fd2a": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-14T13:00:00Z",
+        "n_sources": 11,
+        "violations": []
+      },
+      "afda891a6756bff1714bf4bee8a792c938cf72c4f372abe392204210cc6ad2a9": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-23T13:00:00Z",
+        "n_sources": 28,
+        "violations": []
+      },
+      "b2467ebd24c6bf241dc409dd202ff8ab2d912bad858e0bb729763152a65822fe": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-14T19:00:00Z",
+        "n_sources": 14,
+        "violations": []
+      },
+      "ba98131020f9470e2d1369b1d873c134dc8d8de90f4567ddfa2e3d80f2a3fda5": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-17T17:00:00Z",
+        "n_sources": 15,
+        "violations": []
+      },
+      "be1daf18f8287a1690eaa47b587a9eef69d59d703934b979829cd740d1a8d873": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-25T21:00:00Z",
+        "n_sources": 37,
+        "violations": []
+      },
+      "beb2dc2f82b26f8f9a77184fa183b765ec48122f8cc37f7f6bffc1691b80ec9b": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-18T19:00:00Z",
+        "n_sources": 13,
+        "violations": []
+      },
+      "bfa47aa81391aba7f0cb3605bb665eed3a661ed6eb6427f3c9b10ec79c246f11": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-16T13:00:00Z",
+        "n_sources": 5,
+        "violations": []
+      },
+      "c06a9655bef197e9e3aab661e8e632a11872213e2e2c029e867b9e5b15b8efe9": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-19T21:00:00Z",
+        "n_sources": 22,
+        "violations": []
+      },
+      "c0bc04fd983e7e88ac0dcf089934ba8ab52a105a9ea59fdec1d155fbb5da76f9": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-18T13:00:00Z",
+        "n_sources": 10,
+        "violations": []
+      },
+      "c33b449cff8ed11269c9c93aff5cfa0714c32103d9f317cc1c054fd574dbb604": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-16T13:00:00Z",
+        "n_sources": 16,
+        "violations": []
+      },
+      "c4b5acdc73fda7595fa053a4162a2e006d078d429675882933a2e0c968b46811": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-14T17:00:00Z",
+        "n_sources": 13,
+        "violations": []
+      },
+      "ca168b5eec656bd380b20d63062e41d226012c4759e4e1ff63ea83ec12fd4bf5": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-12T19:00:00Z",
+        "n_sources": 9,
+        "violations": []
+      },
+      "cc0973279069da8b56ae26908b6a026de36480be181f77aff11fb0c463cfcd57": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-28T21:00:00Z",
+        "n_sources": 39,
+        "violations": []
+      },
+      "cd90f174a5a2031861ef8c48bf0e8d862479f8b7275b779a0788ff74007bdb8a": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-24T17:00:00Z",
+        "n_sources": 38,
+        "violations": []
+      },
+      "ce14bbda09168feb2310c82a4e552708b7c2b1a9110ecd0788bb2b0d6899e620": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-20T13:00:00Z",
+        "n_sources": 15,
+        "violations": []
+      },
+      "cffd1784322eab975681f162c6409742a2f7001242bd7fb64f0487fbe8b044cc": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-26T19:00:00Z",
+        "n_sources": 44,
+        "violations": []
+      },
+      "d01aed0b28fe56d09a4ff867a475bd97ae678f8b1df9e4f21dd2a3de8ff0ab94": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-21T17:00:00Z",
+        "n_sources": 25,
+        "violations": []
+      },
+      "d0fb9b0dc19acc820a6c66180d920ccb7a8ac1ae2c439d6c802ba21bd4dd4d03": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-20T21:00:00Z",
+        "n_sources": 30,
+        "violations": []
+      },
+      "d110539d4d6d96e3a3f8a717451ac6f0279f6c150de5b5b7600c99bb9c9f52e5": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-26T15:00:00Z",
+        "n_sources": 42,
+        "violations": []
+      },
+      "d35806f184e75a69ecc29d02be058dcbcef487e7c9e6db3d054e90910acd5d84": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-18T17:00:00Z",
+        "n_sources": 12,
+        "violations": []
+      },
+      "d585ef78c899156be90945c85a5c6371ee9b59c3bc822f42f611f7a4b1d835b6": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-16T15:00:00Z",
+        "n_sources": 17,
+        "violations": []
+      },
+      "d6738498254f5929a16da120c358e1c264c4ba6bda93ed7e29625d7235581b99": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-14T13:00:00Z",
+        "n_sources": 0,
+        "violations": []
+      },
+      "d84aef9b94abfcf9b58d18c9b0c309b6f7744a70c1f673e3fdf904b8e588332e": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-17T19:00:00Z",
+        "n_sources": 16,
+        "violations": []
+      },
+      "d8ae751468d96e4fb4e30c0696e285a68ad16b4030949a445a5856f60d419894": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-16T19:00:00Z",
+        "n_sources": 8,
+        "violations": []
+      },
+      "db0af09bf59a2465ebb7efa8206b1bcfe7110d0e526182629e71346487ebbfef": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-19T15:00:00Z",
+        "n_sources": 19,
+        "violations": []
+      },
+      "dbb01c3381728a080aebaf36a9a41d2ed58819bcfb133e53113b6f46d73b7d8c": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-22T15:00:00Z",
+        "n_sources": 21,
+        "violations": []
+      },
+      "dc5743ad9012e4a490e40380e10179947fb006a5e60d65b8dae5dd4c84a84010": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-20T17:00:00Z",
+        "n_sources": 28,
+        "violations": []
+      },
+      "dfbf54ffa2d4dc0f5be3068998af2d8130273d6a902884eb6c4c099222871100": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-24T13:00:00Z",
+        "n_sources": 25,
+        "violations": []
+      },
+      "e15257d28e95203f8daa51eacc9939a1630e7e777fcd15b3fd797a52d6264499": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-15T19:00:00Z",
+        "n_sources": 11,
+        "violations": []
+      },
+      "e17eb045e5b92b4f95dd9882bca2232132a0e7940f9d3d75e78d777b955fb176": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-22T15:00:00Z",
+        "n_sources": 32,
+        "violations": []
+      },
+      "e1c2d11d34f8171e4493a52bb86896d60d5daa91e341183952c0c0779a9b50c7": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-24T17:00:00Z",
+        "n_sources": 27,
+        "violations": []
+      },
+      "e23b200ac6cbfc1c7569bdbd5ca5672699bd1b21526d6e6cb3821786a8992564": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-22T21:00:00Z",
+        "n_sources": 35,
+        "violations": []
+      },
+      "e2562d6016e2804f16b0376eacd08e118537a4f58b3d37f71566d83d789ae997": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-14T15:00:00Z",
+        "n_sources": 12,
+        "violations": []
+      },
+      "e70b8a21e8497b8411a67c8dbfb3f47d5c08f57289340fa09040112395c8a4bd": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-27T13:00:00Z",
+        "n_sources": 38,
+        "violations": []
+      },
+      "ea41ccdfa3b931a587d7021c546097cee4df479e32573b306858e4c5bc0ff6b9": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-17T15:00:00Z",
+        "n_sources": 14,
+        "violations": []
+      },
+      "eda13968ef5bb4f47052f864c454acfb91deef89bd3f0d0544d4dbbef1f1cf72": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-28T13:00:00Z",
+        "n_sources": 35,
+        "violations": []
+      },
+      "eee74fd67d94a676f67e0fedc6572b3a03a9360337b33209c1ec09446132a212": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2021-08-16T21:00:00Z",
+        "n_sources": 9,
+        "violations": []
+      },
+      "f1885d69af683162f1ef0b6a3933730e309253636819b64b2c03470e75df3a52": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-24T13:00:00Z",
+        "n_sources": 36,
+        "violations": []
+      },
+      "f2f925fea5f02deaf34684456fb037593403bb9bf56f0928565cb999e1ee37b1": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-21T15:00:00Z",
+        "n_sources": 24,
+        "violations": []
+      },
+      "fa5e9b97478c3e06fefeccf28240740522c091dceafd5da6cbca6234c9db98b1": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-23T15:00:00Z",
+        "n_sources": 29,
+        "violations": []
+      },
+      "fba7fd142983612839378078a39c2f66e744a9e1c65f3636205b58500971db91": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2023-08-18T15:00:00Z",
+        "n_sources": 22,
+        "violations": []
+      },
+      "ffb27a995dfc60e95ca9c639c00a9de5eb9a16737361280e97c6124c8d7720bc": {
+        "all_sources_before_cutoff": true,
+        "cutoff": "2022-08-27T21:00:00Z",
+        "n_sources": 42,
+        "violations": []
+      }
+    }
+  },
+  "producer": "pre_match_agent",
+  "record_count": 240,
+  "run_id": "local_smoke_run",
+  "schema_version": "1.0.0",
+  "status": "validated",
+  "warnings": [
+    "1 matchs sans historique (features null, §7.2)"
+  ]
+}
