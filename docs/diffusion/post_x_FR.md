@@ -1,7 +1,7 @@
 # Fil X (Twitter) — Français
 
 **Angle :** pratique — les agents IA comme moteurs de décision probabiliste en temps réel.
-**Placeholders à remplacer avant publication :** [GITHUB URL], [OSF DOI], [AUTHOR NAME].
+**Placeholders à remplacer avant publication :** [OSF DOI] (assigné à l'étape 3 du processus de publication).
 **Publier en fil (7 tweets).**
 
 ---
@@ -72,7 +72,7 @@ C'est précisément le but.
 
 Code : MIT. Textes : CC-BY 4.0. Pipeline à 9 agents, artefacts hashés, SQLite, entièrement rejouable.
 
-Repo : [GITHUB URL]
+Repo : https://github.com/steve-dev-55/laya-football-evaluation
 Pré-enregistrement : [OSF DOI]
 
 Chercheurs en sports analytics et forecasting : critiquez le protocole maintenant — c'est le meilleur moment.
@@ -81,4 +81,4 @@ Chercheurs en sports analytics et forecasting : critiquez le protocole maintenan
 
 ---
 
-*Note : chaque tweet respecte la limite de 280 caractères à la rédaction ; recompter après remplacement des placeholders ([GITHUB URL], [OSF DOI] ajoutent des caractères — utiliser des liens raccourcis si besoin).*
+*Note : chaque tweet respecte la limite de 280 caractères à la rédaction ; recompter après remplacement du placeholder restant ([OSF DOI] ajoute des caractères — utiliser des liens raccourcis si besoin).*

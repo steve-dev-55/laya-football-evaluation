@@ -1,6 +1,5 @@
-# CITATION.cff — métadonnées de citation (format Citation File Format)
-# NOTE PRÉ-PUBLICATION : remplacer les placeholders marqués TODO avant le push
-# GitHub public. Voir docs/publication_process.md (étape 2).
+# CITATION.cff — métadonnées de citation (format Citation File Format v1.2)
+# Étude : Laya Football Evaluation — https://github.com/steve-dev-55/laya-football-evaluation
 cff-version: 1.2.0
 message: >-
   Si vous utilisez ce protocole, ce code ou ces résultats dans vos travaux,
@@ -16,9 +15,10 @@ abstract: >-
   baselines, with point-in-time anti-leakage guarantees, stratified grouped
   bootstrap inference and Holm-Bonferroni correction.
 authors:
-  - family-names: "TODO: nom de famille"
-    given-names: "TODO: prénom"
-    # affiliation: "TODO: affiliation (labo / université / ville, pays)"
+  - family-names: "Djoumessi Mba"
+    given-names: "Steve"
+    email: "138932932+steve-dev-55@users.noreply.github.com"
+    affiliation: "Independent Researcher"
 type: software
 version: 0.1.0
 date-released: "2026-09-26"
@@ -32,5 +32,5 @@ keywords:
   - calibration
   - multi-agent systems
 license: MIT
-repository-code: "https://github.com/TODO_USERNAME/laya-football-evaluation"
-url: "https://github.com/TODO_USERNAME/laya-football-evaluation"
+repository-code: "https://github.com/steve-dev-55/laya-football-evaluation"
+url: "https://github.com/steve-dev-55/laya-football-evaluation"

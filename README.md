@@ -2,7 +2,7 @@
 
 **A preregistered, multi-agent evaluation protocol for AI decision engines as real-time probabilistic forecasters of football matches.**
 
-[![CI](https://github.com/TODO_USERNAME/laya-football-evaluation/actions/workflows/ci.yml/badge.svg)](https://github.com/TODO_USERNAME/laya-football-evaluation/actions/workflows/ci.yml)
+[![CI](https://github.com/steve-dev-55/laya-football-evaluation/actions/workflows/ci.yml/badge.svg)](https://github.com/steve-dev-55/laya-football-evaluation/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs: CC-BY 4.0](https://img.shields.io/badge/Docs-CC--BY_204.0-blue.svg)](LICENSE-CC-BY-4.0)
 [![Protocol](https://img.shields.io/badge/Protocol-v2.0.0-preregistered-purple.svg)](PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md)
@@ -122,16 +122,19 @@ scripts/                               # run_pipeline.sh (§16) + synthetic data
 If you use this protocol or code, please cite:
 
 ```bibtex
-@software{laya_football_evaluation_2026,
+@software{djoumessi_mba_2026_laya,
+  author = {Djoumessi Mba, Steve},
   title = {Laya as a Real-Time Probabilistic Decision Engine for Football:
            A Preregistered Multi-Agent Evaluation Protocol},
   year = {2026},
   version = {0.1.0},
-  url = {https://github.com/TODO_USERNAME/laya-football-evaluation}
+  publisher = {GitHub},
+  url = {https://github.com/steve-dev-55/laya-football-evaluation}
 }
 ```
 
-(Author metadata will be completed in `CITATION.cff` at publication time.)
+Full structured metadata: [`CITATION.cff`](CITATION.cff) (GitHub renders it
+automatically under "Cite this repository").
 
 ## License
 

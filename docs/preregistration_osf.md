@@ -9,13 +9,15 @@
 
 - **Title:** Laya as a Real-Time Probabilistic Decision Engine for Football: A Preregistered Multi-Agent Evaluation Protocol
 - **Registration type:** Preregistered protocol — no data have been collected and no final test results have been inspected at the time of registration.
-- **Authors:** [TODO: full name, affiliation]
-- **Affiliation(s):** [TODO]
-- **Email for correspondence:** [TODO]
-- **Date of registration:** [TODO]
+- **Authors:** Steve Djoumessi Mba — Independent Researcher (no institutional affiliation at time of registration)
+- **Affiliation(s):** Independent Researcher
+- **Email for correspondence:** 138932932+steve-dev-55@users.noreply.github.com
+  (GitHub no-reply address preserving author privacy; replace with a
+  personal address on the OSF form if preferred)
+- **Date of registration:** 2026-09-26
 - **Version of the study protocol:** 2.0.0 (French original authoritative; English adaptation available in the repository)
 - **Persistent identifiers:**
-  - Repository (code, MIT): [GITHUB URL]
+  - Repository (code, MIT): https://github.com/steve-dev-55/laya-football-evaluation
   - This preregistration: [OSF DOI — assigned on registration]
   - Preprint: [ARXIV ID — optional at registration time]
 - **Existing registrations of this study:** none. This is the first registration of this study.

@@ -2,7 +2,7 @@
 
 **Objet du fichier :** modèle d'email pour contacter des chercheurs et groupes de recherche afin de faire connaître le protocole et d'inviter des retours critiques pendant la fenêtre de pré-enregistrement (avant l'exécution de l'étude).
 
-**Placeholders à remplacer avant envoi :** [RESEARCHER NAME], [GITHUB URL], [OSF DOI], [AUTHOR NAME], [AFFILIATION], [EMAIL], [PREPRINT LINK — arXiv].
+**Placeholders à remplacer avant envoi :** [RESEARCHER NAME] (nom du destinataire), [OSF DOI], [EMAIL] (adresse personnelle d'expédition), [PREPRINT LINK — arXiv], [ONE SPECIFIC POINT]. Le nom d'auteur, l'affiliation et l'URL du dépôt sont déjà en place.
 
 ---
 
@@ -29,17 +29,17 @@
 
 Dear [RESEARCHER NAME],
 
-I am [AUTHOR NAME] ([AFFILIATION]). I have just preregistered the protocol of a study that evaluates a typed AI decision engine ("Laya") as a **live probabilistic forecaster** of football outcomes — 1X2, 17 score buckets, corners, and yellow cards — sampled at seven fixed cutoffs and immediately after goals, red cards, penalties, and substitutions.
+I am Steve Djoumessi Mba (Independent Researcher). I have just preregistered the protocol of a study that evaluates a typed AI decision engine ("Laya") as a **live probabilistic forecaster** of football outcomes — 1X2, 17 score buckets, corners, and yellow cards — sampled at seven fixed cutoffs and immediately after goals, red cards, penalties, and substitutions.
 
 The design emphasizes what your work has shown matters: strict point-in-time integrity (automated leakage tests on 100% of snapshots), fair statistical baselines receiving identical information (Poisson, Dixon-Coles, multinomial logit, bookmaker odds), randomized PIT and proper scoring rules, and match-clustered bootstrap with Holm-Bonferroni correction.
 
 The study is preregistered (no results yet, by design), and the code is open source. Before execution, I would greatly value your critique of the protocol, especially [ONE SPECIFIC POINT — e.g., "the tier design" / "the score-bucket target" / "the clustered inference"].
 
-Protocol: [OSF DOI] — Code: [GITHUB URL] — Preprint: [PREPRINT LINK — arXiv]
+Protocol: [OSF DOI] — Code: https://github.com/steve-dev-55/laya-football-evaluation — Preprint: [PREPRINT LINK — arXiv]
 
 With best regards,
-[AUTHOR NAME]
-[AFFILIATION] — [EMAIL]
+Steve Djoumessi Mba
+Independent Researcher — [EMAIL]
 
 ---
 
@@ -47,7 +47,7 @@ With best regards,
 
 **Objet :** `Protocole pré-enregistré : évaluation d'un moteur de décision IA comme prédicteur probabiliste en temps réel (retours bienvenus)`
 
-**Corps (~130 mots) :** même structure — présentation en une phrase ; le design (point-in-time strict, baselines équitables, PIT randomisé, bootstrap groupé par match, Holm-Bonferroni) ; le statut (pré-enregistré, sans résultats, par design) ; la demande de critique ciblée ; les liens ([OSF DOI], [GITHUB URL], [PREPRINT LINK]) ; signature ([AUTHOR NAME], [AFFILIATION], [EMAIL]).
+**Corps (~130 mots) :** même structure — présentation en une phrase ; le design (point-in-time strict, baselines équitables, PIT randomisé, bootstrap groupé par match, Holm-Bonferroni) ; le statut (pré-enregistré, sans résultats, par design) ; la demande de critique ciblée ; les liens ([OSF DOI], dépôt GitHub, preprint) ; signature (Steve Djoumessi Mba, Independent Researcher, [EMAIL]).
 
 ---
 

@@ -1,7 +1,7 @@
 # X (Twitter) thread — English
 
 **Angle:** practical — AI agents as real-time probabilistic decision engines.
-**Placeholders to replace before posting:** [GITHUB URL], [OSF DOI], [AUTHOR NAME].
+**Placeholders to replace before posting:** [OSF DOI] (assigned at stage 3 of the publication process).
 **Post as a reply-chain thread (7 tweets).**
 
 ---
@@ -70,7 +70,7 @@ That's the point.
 
 Code: MIT. Text: CC-BY 4.0. Nine-agent pipeline, hashed artifacts, SQLite, fully re-runnable.
 
-Repo: [GITHUB URL]
+Repo: https://github.com/steve-dev-55/laya-football-evaluation
 Preregistration: [OSF DOI]
 
 Sports-analytics & forecasting researchers: poke holes in the protocol now — that's the best moment to.
@@ -79,4 +79,4 @@ Sports-analytics & forecasting researchers: poke holes in the protocol now — t
 
 ---
 
-*Character-count note: each tweet fits the 280-char limit (emoji/threads checked at drafting time; recount after placeholder replacement, since [GITHUB URL] and [OSF DOI] add length — use link shorteners if needed).*
+*Character-count note: each tweet fits the 280-char limit (emoji/threads checked at drafting time; recount after replacing the remaining placeholder, since [OSF DOI] adds length — use link shorteners if needed).*

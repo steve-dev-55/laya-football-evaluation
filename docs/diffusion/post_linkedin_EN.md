@@ -1,7 +1,7 @@
 # LinkedIn post — English
 
 **Angle:** practical and rigorous — real-time probabilistic decision engines.
-**Placeholders to replace before posting:** [GITHUB URL], [OSF DOI], [AUTHOR NAME].
+**Placeholders to replace before posting:** [OSF DOI] (assigned at stage 3 of the publication process).
 **Target length:** ~200 words.
 
 ---
@@ -19,7 +19,7 @@ Four choices make this evaluation credible:
 
 If you work in sports analytics, probabilistic forecasting, or LLM evaluation, I'd genuinely value your critique of the protocol while it can still be improved.
 
-Repo: [GITHUB URL] — Preregistration: [OSF DOI]
+Repo: https://github.com/steve-dev-55/laya-football-evaluation — Preregistration: [OSF DOI]
 
 #SportsAnalytics #ProbabilisticForecasting #LLM #OpenScience
 
