@@ -1,10 +1,10 @@
 {
   "experiment_id": "laya-football-001",
   "protocol_version": "2.0.0",
-  "competitions": ["EPL", "LaLiga", "SerieA", "Bundesliga", "Ligue1"],
-  "seasons": ["2021-2022", "2022-2023", "2023-2024"],
-  "primary_source": "LOCAL_FILE (à remplacer : StatsBomb/API-Football/FBref à figer avant collecte)",
-  "secondary_source": "à figer avant la collecte",
+  "competitions": ["Premier League", "La Liga", "Serie A", "Ligue 1", "Indian Super League", "Liga F", "FA Women's Super League", "Frauen Bundesliga", "Serie A Women", "NWSL"],
+  "seasons": ["2015/2016", "2021/2022", "2023/2024"],
+  "primary_source": "StatsBomb Open Data — github.com/statsbomb/open-data, commit figé 4b73468fc5b0f1950f9f66fada70ad3a4f9327cb (2026-09-07), licence CC BY-NC-SA 4.0 — figé le 2026-09-27, voir docs/frozen_corpus.json",
+  "secondary_source": "aucune complétion silencieuse (§3.2) ; vérification croisée des scores finaux contre les classements publics officiels lors de l'audit qualité",
   "cutoffs_seconds": [0, 900, 1800, 2700, 3600, 4500, 5100],
   "information_tiers": ["A", "B", "C"],
   "score_bucket_cap": 3,
@@ -34,12 +34,12 @@
   },
   "decisions": {
     "primary_and_secondary_source": {
-      "value": "principale = LOCAL_FILE (à remplacer : StatsBomb/API-Football/FBref à figer avant collecte) ; secondaire = à figer",
-      "justification": "source de démonstration locale (données synthétiques) ; les sources réelles doivent être figées avant tout test final (§3.2)"
+      "value": "principale = StatsBomb Open Data (github.com/statsbomb/open-data, commit figé 4b73468fc5b0f1950f9f66fada70ad3a4f9327cb, licence CC BY-NC-SA 4.0 — usage scientifique non commercial) ; secondaire = aucune complétion silencieuse (§3.2), vérification croisée des scores finaux contre les classements publics officiels",
+      "justification": "source figée avant collecte (§3.2, décision clôturée avant l'enregistrement OSF) : couverture événementielle requise (buts, cartons, corners, remplacements, xG par tir via shot.statsbomb_xg, possession) vérifiée par inspection structurelle sur matchs témoins ; commit source figé pour reproductibilité"
     },
     "seasons_and_competitions": {
-      "value": "saisons 2021-2022, 2022-2023, 2023-2024 ; compétitions EPL, LaLiga, SerieA, Bundesliga, Ligue1",
-      "justification": "périmètre §3.1 : 3 saisons complètes sur les 5 grands championnats (split temporel possible §11.1)"
+      "value": "AMENDEMENT A1 (avant enregistrement OSF) — corpus figé, 3 saisons complètes, 10 compétitions, 2 403 matchs : 2015/16 masculin (Premier League 380, La Liga 380, Serie A 380, Ligue 1 377) ; 2021/22 masculin (Indian Super League 115) ; 2023/24 féminin (Liga F 240, NWSL 2023 137, WSL 132, Frauen Bundesliga 132, Serie A Women 130) — détail complet dans docs/frozen_corpus.json",
+      "justification": "§3.1 exige 3 saisons complètes ; la source ouverte StatsBomb (retenue pour ses événements minutés complets + xG par tir) ne couvre aucun triplet de saisons complètes consécutives d'une même compétition. Amendement documenté AVANT tout contact avec les données de test : les trois seules saisons complètes disponibles sont retenues (2015/16, 2021/22, 2023/24), périmètre multi-compétitions et mixte. Ligue 1 2015/16 : 377/380 matchs présents dans la source (0,8 % manquants, sous le seuil de blocage de 10 %, §11.4)"
     },
     "timezone_and_kickoff": {
       "value": "tous les horodatages en UTC ISO-8601 « ...Z » ; kickoff = timestamp officiel du coup d'envoi fourni par la source",
@@ -78,8 +78,8 @@
       "justification": "règle §9.2 : sorties identiques → une requête suffit ; sinon k = 5 pour tous les snapshots ou règle d'agrégation figée avant le test"
     },
     "temporal_split": {
-      "value": "entraînement = 2021-2022 et 2022-2023 ; test final = 2023-2024 ; matchs d'un même jour dans le même bloc",
-      "justification": "découpage temporel §11.1 (jamais de split aléatoire de snapshots) ; le test final n'est jamais consulté pour les choix de modèle"
+      "value": "AMENDEMENT A2 (avant enregistrement OSF) : découpage chronologique 50/50 par compétition-saison — entraînement = première moitié chronologique des matchs de chaque compétition, test final = seconde moitié ; matchs d'un même jour dans le même bloc ; le test final n'est jamais consulté pour les choix de modèle",
+      "justification": "le découpage par saison du manifeste initial (train 2021-22 + 2022-23, test 2023-24) devient confondu par l'amendement A1 : les saisons figées couvrent des populations différentes (masculin 2015/16, ISL 2021/22, féminin 2023/24). Le découpage chronologique intra-saison par compétition préserve §11.1 (temporel strict, jamais de split aléatoire de snapshots, même jour = même bloc) et élimine le biais de transfert de domaine : chaque baseline est entraînée sur les matchs antérieurs de SA compétition. ~1 200 matchs de test attendus (2 403/2)"
     },
     "primary_metrics": {
       "value": "1x2 = log_loss ; score_bucket = log_loss ; corners = crps ; yellow_cards = crps",

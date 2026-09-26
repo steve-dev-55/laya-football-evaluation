@@ -1,7 +1,7 @@
 # Preregistration — OSF
 
-> **Document ready to paste into an OSF preregistration (template: "Standard Pre-Data Collection Registration" or "Preregistration Challenge" adapted).**
-> Fields to be filled before submission are marked **[TODO]**. Once the registration is frozen, this document must not be modified anymore; any change after the final test has been consulted must be disclosed as a post hoc deviation.
+> **Document prepared for the OSF "OSF Preregistration" (v4) form. Content of this document is the authoritative registration record; the form fields map onto it section by section.**
+> Once the registration is frozen, this document must not be modified anymore; any change after the final test has been consulted must be disclosed as a post hoc deviation.
 
 ---
 
@@ -14,7 +14,7 @@
 - **Email for correspondence:** 138932932+steve-dev-55@users.noreply.github.com
   (GitHub no-reply address preserving author privacy; replace with a
   personal address on the OSF form if preferred)
-- **Date of registration:** 2026-09-26
+- **Date of registration:** 2026-09-27
 - **Version of the study protocol:** 2.0.0 (French original authoritative; English adaptation available in the repository)
 - **Persistent identifiers:**
   - Repository (code, MIT): https://github.com/steve-dev-55/laya-football-evaluation
@@ -82,13 +82,17 @@ At cutoff t, no artifact transmitted to Laya, no baseline feature, and no model-
 
 ## 4. Sampling Plan
 
-- **Competitions:** Premier League, La Liga, Serie A, Bundesliga, Ligue 1 (five; frozen).
-- **Seasons:** three complete seasons, explicitly listed in the experiment manifest. [TODO: list exact season labels after source selection]
-- **Primary/secondary sources:** [TODO: name sources and document licenses before collection]
-- **Target sample size:** ~1,000 included matches (power objective, not a quota). The power analysis (primary metric per target, minimal difference of interest, expected exclusion rate, maximum number of confirmatory tests) is completed and frozen in the manifest before the final collection. [TODO: attach power analysis numbers]
+- **Primary source (frozen):** StatsBomb Open Data — https://github.com/statsbomb/open-data, frozen at commit `4b73468fc5b0f1950f9f66fada70ad3a4f9327cb` (2026-09-07), license CC BY-NC-SA 4.0 (non-commercial scientific use). Field coverage required by the protocol (goals, cards, corners, substitutions, per-shot xG via `shot.statsbomb_xg`, possession, per-event timestamps) was verified by structural inspection. No secondary completion source; final scores are cross-checked against official public standings during the quality audit (protocol §3.2).
+- **Competitions and seasons (frozen; amendment A1 from the initial big-5 plan, documented before registration — no competition offers three complete consecutive seasons in any open source):** three complete seasons, ten competitions, **2 403 matches** —
+  - **2015/16 (men):** Premier League (380), La Liga (380), Serie A (380), Ligue 1 (377/380 present in source; 0.8% source-level missingness, below the 10% blocking threshold);
+  - **2021/22 (men):** Indian Super League (115, incl. playoffs);
+  - **2023/24 (women):** Liga F (240), NWSL 2023 calendar season (137, incl. playoffs), FA Women's Super League (132), Frauen Bundesliga (132), Serie A Women (130).
+  Full per-competition table: `docs/frozen_corpus.json`.
+- **Foreknowledge disclosure:** before registration, the author accessed only (a) match counts per competition-season and (b) the structural event-type inventory of one sample match per corpus block (field verification); no outcome-level data were observed or analyzed.
+- **Target sample size:** 2 403 included matches (power objective, not a quota). **Power analysis (frozen, `docs/power_analysis.json`, `scripts/power_analysis.py`):** primary endpoint = 1X2 log loss, paired per-match difference, match-clustered percentile bootstrap (≥ 2 000 replicates), Holm–Bonferroni family m = 6 comparisons, α = 0.05. Planning assumptions: per-snapshot paired-difference SD σ_d = 0.15, intra-match correlation ρ = 0.30, K = 12 snapshots/match, n_test ≈ 1 200 (50% chronological test split). Results: **minimum detectable effect at 80% power = 0.0090** log-loss units (90% power: 0.0102); power = 0.888 for Δ = 0.01, > 0.99 for Δ ≥ 0.015; sensitivity across σ_d ∈ [0.10, 0.20], ρ ∈ [0.20, 0.50], K ∈ [8, 16]: MDE₈₀ ∈ [0.0060, 0.0120]. Monte-Carlo validation of the exact test procedure (300 sims × 2 000 replicates) agrees with the analytic noncentral-t computation within MC error; a mirror validation against the repository's `bootstrap_difference` implementation is included.
 - **Inclusion:** finished and officially validated matches; no extra time; final score, events, and statistics available; timestamps precise enough for cutoffs; resolved team identities.
 - **Exclusion (logged):** stopped/postponed/replayed/abandoned matches; extra time or shootouts; score–event inconsistencies; missing non-imputable targets; impossible timestamps; unresolved duplicates; post-match-only aggregates where live snapshots are required. Excluded matches are never replaced after consulting results.
-- **Split:** strictly temporal — training on the oldest periods, validation on the next period, final test on the most recent period (never used for any model choice). With only three seasons: documented rolling-origin scheme + final temporal holdout. Same-day matches stay in the same block.
+- **Split (amendment A2, documented before registration):** strictly chronological 50/50 split **within each competition-season** — training = first chronological half, final test = second half (never used for any model choice); same-day matches stay in the same block. (The initial season-level split — train 2021-22 + 2022-23, test 2023-24 — is confounded by the amended corpus A1, whose seasons cover different populations; the per-competition chronological split preserves protocol §11.1 and eliminates domain-transfer bias for the baselines, each trained on earlier matches of its own competition.)
 
 ---
 
@@ -121,7 +125,7 @@ At cutoff t, no artifact transmitted to Laya, no baseline feature, and no model-
 - Per-match contribution differences computed once per metric and model pair.
 - **Stratified bootstrap clustered by match** (clusters = matches; all snapshots of a resampled match carried along), ≥2,000 replications.
 - Report: mean difference, 95% CI, effect size.
-- **Multiplicity:** Holm–Bonferroni within preregistered families of tests. [TODO: freeze the exact family structure in the manifest]
+- **Multiplicity:** Holm–Bonferroni within preregistered families of tests — **four families, one per target (1X2, score buckets, corners, yellow cards), each containing the six comparisons Laya vs each baseline**; frozen in `experiment_manifest.json` (decision `holm_bonferroni_families`, agents/evaluator.py `COMPARISON_FAMILIES`).
 - A non-significant result is never interpreted as equivalence.
 
 ### 6.4 Robustness and event-reaction analyses (secondary)
@@ -165,24 +169,25 @@ I confirm that:
 3. Any deviation from this plan will be reported explicitly in the final manuscript, with the reason for the deviation and whether it was decided before or after seeing final test results.
 4. Exploratory analyses not specified here will be clearly labeled as exploratory (not confirmatory) in all reports and communications.
 5. The system under test (Laya) is a third-party AI decision engine evaluated as-is; the study reports no betting advice and makes no causal claims.
-6. There are no conflicts of interest to declare. [TODO: confirm or amend]
-7. Funding: [TODO: none / details].
+6. There are no conflicts of interest to declare. The author has no relationship (financial, employment, or contractual) with the vendor of the evaluated system, with any bookmaker, or with any sports-data company.
+7. Funding: none — self-funded independent research; no funder had any role in the design, analysis, or reporting.
 8. The code is open source (MIT); the protocol text and published documents are CC-BY 4.0. The study protocol and reference implementation were developed with the assistance of an AI system (Super Z, Z.ai) under the direction of the author, who takes full responsibility.
 
 ---
 
 ## 10. Timeline (planned)
 
-- **Stage 1 (this registration):** protocol frozen, code released, preregistration + repository published. [TODO: date]
-- **Data collection and execution:** after registration. [TODO: window]
-- **Stage 2 (results):** analyses executed exactly as preregistered; report published as a stage-2 registered report; deviations disclosed. [TODO]
+- **Stage 1 (this registration):** 2026-09-26 (repository, protocol, code, tests published) — 2026-09-27 (OSF registration).
+- **Data collection and execution:** October–December 2026 (within 3 months of registration): collector adaptation to the frozen source, integration of the production Laya SDK (version and checkpoint hashed before collection), pipeline execution over the frozen corpus.
+- **Stage 2 (results):** analyses executed exactly as preregistered; report published as a stage-2 registered report (release `v1.0.0-results`); all deviations disclosed.
 
 ---
 
 ## 11. Attachments to upload with this registration
 
-- [ ] Study protocol v2.0.0 (French original, authoritative) — `PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md`
-- [ ] English adaptation — `docs/protocol_en.md`
-- [ ] Frozen experiment manifest (with all Annex B decisions valued) — [TODO]
-- [ ] Power analysis worksheet — [TODO]
-- [ ] Repository snapshot/commit hash of the preregistered code — [TODO: commit SHA]
+- [x] Study protocol v2.0.0 (French original, authoritative) — `PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md` (SHA-256 `d8a3c83b6169d7d8e7210ebb280e040881956816b347a9ba5f3a5e5056f4e8ea`)
+- [x] English adaptation — `docs/protocol_en.md`
+- [x] Frozen experiment manifest (all Annex A/B decisions valued, incl. amendments A1/A2) — `experiment_manifest.json`
+- [x] Frozen corpus table (per-competition match counts, source commit, license) — `docs/frozen_corpus.json`
+- [x] Power analysis worksheet (exact noncentral-t + Monte-Carlo validation + mirror of `bootstrap_difference`) — `docs/power_analysis.json`, `scripts/power_analysis.py`
+- [x] Repository snapshot/commit hash of the preregistered code — recorded in the OSF registration summary and equal to the repository `main` HEAD at registration time (GitHub: steve-dev-55/laya-football-evaluation)

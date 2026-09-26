@@ -1,0 +1,125 @@
+{
+  "alpha": 0.05,
+  "m_family": 6,
+  "planning": {
+    "sigma": 0.15,
+    "rho": 0.3,
+    "K": 12
+  },
+  "n_grid": [
+    600,
+    1200,
+    1800
+  ],
+  "delta_grid": [
+    0.005,
+    0.01,
+    0.015,
+    0.02,
+    0.03
+  ],
+  "power_planning": {
+    "n=600": {
+      "delta=0.005": 0.1006,
+      "delta=0.01": 0.5326,
+      "delta=0.015": 0.9253,
+      "delta=0.02": 0.9975,
+      "delta=0.03": 1.0
+    },
+    "n=1200": {
+      "delta=0.005": 0.2382,
+      "delta=0.01": 0.8876,
+      "delta=0.015": 0.9992,
+      "delta=0.02": 1.0,
+      "delta=0.03": 1.0
+    },
+    "n=1800": {
+      "delta=0.005": 0.3905,
+      "delta=0.01": 0.9813,
+      "delta=0.015": 1.0,
+      "delta=0.02": 1.0,
+      "delta=0.03": 1.0
+    }
+  },
+  "mde_planning": {
+    "n=600": {
+      "power80": 0.0128,
+      "power90": 0.0144
+    },
+    "n=1200": {
+      "power80": 0.009,
+      "power90": 0.0102
+    },
+    "n=1800": {
+      "power80": 0.0074,
+      "power90": 0.0083
+    }
+  },
+  "mde_sensitivity_n1200": {
+    "sigma=0.1,rho=0.3,K=12": {
+      "power80": 0.006,
+      "power90": 0.0068
+    },
+    "sigma=0.2,rho=0.3,K=12": {
+      "power80": 0.012,
+      "power90": 0.0136
+    },
+    "sigma=0.15,rho=0.2,K=12": {
+      "power80": 0.0078,
+      "power90": 0.0088
+    },
+    "sigma=0.15,rho=0.5,K=12": {
+      "power80": 0.0111,
+      "power90": 0.0125
+    },
+    "sigma=0.15,rho=0.3,K=8": {
+      "power80": 0.0094,
+      "power90": 0.0106
+    },
+    "sigma=0.15,rho=0.3,K=16": {
+      "power80": 0.0088,
+      "power90": 0.01
+    }
+  },
+  "mc_validation_n1200": {
+    "delta=0.005": {
+      "power": 0.25333333333333335,
+      "sims": 300,
+      "mc_se": 0.025110127807689838,
+      "replicates": 2000,
+      "power_exact_nct": 0.2382
+    },
+    "delta=0.01": {
+      "power": 0.8666666666666667,
+      "sims": 300,
+      "mc_se": 0.019626135258506323,
+      "replicates": 2000,
+      "power_exact_nct": 0.8876
+    },
+    "delta=0.02": {
+      "power": 1.0,
+      "sims": 300,
+      "mc_se": 0.0,
+      "replicates": 2000,
+      "power_exact_nct": 1.0
+    }
+  },
+  "mirror_validation": {
+    "repo_ci": [
+      0.008469191794792288,
+      0.03980755326657963
+    ],
+    "vectorized_ci": [
+      0.007405708029454973,
+      0.039866160937796116
+    ],
+    "mean_diff_repo": 0.023903500172608914,
+    "mean_diff_vec": 0.02390350017260892
+  },
+  "corpus": {
+    "matches_total": 2403,
+    "test_matches_expected": 1201,
+    "snapshots_per_match_planning": 12,
+    "test_snapshots_expected": 14412
+  }
+}
