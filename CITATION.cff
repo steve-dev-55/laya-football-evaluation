@@ -1,0 +1,36 @@
+# CITATION.cff — métadonnées de citation (format Citation File Format)
+# NOTE PRÉ-PUBLICATION : remplacer les placeholders marqués TODO avant le push
+# GitHub public. Voir docs/publication_process.md (étape 2).
+cff-version: 1.2.0
+message: >-
+  Si vous utilisez ce protocole, ce code ou ces résultats dans vos travaux,
+  merci de citer cette étude.
+title: >-
+  Laya as a probabilistic decision engine for football: a preregistered,
+  multi-instant, multi-agent evaluation protocol
+abstract: >-
+  Preregistered experimental protocol and reference implementation evaluating
+  Laya, a typed AI decision engine, as a probabilistic forecaster of football
+  match outcomes (1X2 result, score buckets, corners, yellow cards) across
+  fixed and event-driven in-play snapshots, against reproducible statistical
+  baselines, with point-in-time anti-leakage guarantees, stratified grouped
+  bootstrap inference and Holm-Bonferroni correction.
+authors:
+  - family-names: "TODO: nom de famille"
+    given-names: "TODO: prénom"
+    # affiliation: "TODO: affiliation (labo / université / ville, pays)"
+type: software
+version: 0.1.0
+date-released: "2026-09-26"
+keywords:
+  - probabilistic forecasting
+  - football
+  - large language models
+  - evaluation protocol
+  - preregistration
+  - sports analytics
+  - calibration
+  - multi-agent systems
+license: MIT
+repository-code: "https://github.com/TODO_USERNAME/laya-football-evaluation"
+url: "https://github.com/TODO_USERNAME/laya-football-evaluation"

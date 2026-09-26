@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Données : jamais versionnées (décision du manifeste — code seul)
+data/raw/
+data/canonical/
+data/snapshots/
+data/predictions/
+data/evaluation/
+*.db
+*.sqlite*
+logs/*.log
+reports/generated/
+
+# Secrets — JAMAIS commités
+.env
+.env.*
+*.pem
+*token*
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# LaTeX intermédiaires
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.pdf.lock
