@@ -12,7 +12,7 @@ Règles du protocole :
 from __future__ import annotations
 
 import random
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 
 import numpy as np
 
@@ -193,7 +193,7 @@ def compare_models(
         b = [per_model_values[reference][m] for m in common]
         n = len(common)
         count_zero_side = 0
-        diff = [ai - bi for ai, bi in zip(a, b)]
+        diff = [ai - bi for ai, bi in zip(a, b, strict=False)]
         boot_means = []
         for _ in range(replicates):
             sample = [diff[rng.randrange(n)] for _ in range(n)]
@@ -206,7 +206,7 @@ def compare_models(
         comparisons[name] = {**stats, "p_value": pval}
 
     adjusted = holm_bonferroni(pvals, alpha=alpha)
-    for name, rej in zip(names, adjusted):
+    for name, rej in zip(names, adjusted, strict=False):
         comparisons[name]["significant_holm"] = rej
 
     return comparisons

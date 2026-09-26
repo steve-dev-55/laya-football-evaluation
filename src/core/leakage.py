@@ -10,7 +10,8 @@ Les tests doivent être exécutés sur 100 % des snapshots (§5.5).
 from __future__ import annotations
 
 import json
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 from src.core.canonical import canonical_json
 
@@ -111,6 +112,14 @@ def check_pre_match_sources_before_cutoff(
 
     Chaque match source utilisé par une feature doit vérifier
     `available_timestamp` < `T_pre_match_cutoff` (§5.2).
+
+    Correctif (sous-agent B2, documenté dans worklog.md) : la disponibilité
+    d'une source se lit dans la table `matches` (colonne `available_timestamp`).
+    Les lignes de contexte pré-match ne portent PAS cette colonne ; la version
+    précédente les consultait en priorité et produisait un faux positif
+    (« disponible à None ») pour toute source disposant elle-même d'un
+    contexte. Les matchs canoniques priment désormais ; un contexte ne sert
+    que de repli lorsque le match source n'est pas fourni.
     """
     try:
         cutoff = snapshot["state"]["metadata"]["pre_match_cutoff_timestamp"]
@@ -118,16 +127,16 @@ def check_pre_match_sources_before_cutoff(
     except (KeyError, TypeError):
         return []  # pas de bloc pré-match dans ce snapshot (Tier sans pré-match)
 
-    violations: list[str] = []
-    ctx_by_match: dict[str, dict[str, Any]] = {}
-    for c in contexts:
-        ctx_by_match.setdefault(c.get("match_id", ""), c)
-        # un contexte peut référencer plusieurs matchs sources via source_match_ids
-    for m in matches_by_id.values():
-        ctx_by_match.setdefault(m["match_id"], m)
+    records: dict[str, dict[str, Any]] = {}
+    for context in contexts:
+        records.setdefault(str(context.get("match_id", "")), context)
+    # Les matchs canoniques priment : eux seuls portent la disponibilité réelle.
+    for match in matches_by_id.values():
+        records[str(match.get("match_id", ""))] = match
 
+    violations: list[str] = []
     for used in used_ids:
-        record = ctx_by_match.get(used) or matches_by_id.get(used)
+        record = records.get(str(used))
         if record is None:
             violations.append(f"match source {used} introuvable (provenance non auditable)")
             continue
@@ -151,7 +160,8 @@ def check_state_fields_against_cutoff(snapshot: dict[str, Any]) -> list[str]:
     cutoff_ts = snapshot.get("cutoff_timestamp", "")
     violations: list[str] = []
 
-    live_events = state.get("live", {}).get("events", []) if isinstance(state.get("live"), dict) else []
+    live = state.get("live")
+    live_events = live.get("events", []) if isinstance(live, dict) else []
     for e in live_events:
         if e.get("elapsed_seconds", 0) > cutoff_s:
             violations.append(

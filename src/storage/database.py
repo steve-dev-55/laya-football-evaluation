@@ -45,7 +45,7 @@ class Database:
     def close(self) -> None:
         self.conn.close()
 
-    def __enter__(self) -> "Database":
+    def __enter__(self) -> Database:
         return self
 
     def __exit__(self, *exc: Any) -> None:
@@ -111,10 +111,15 @@ WHERE match_id = :match_id
 """
 
 
-def pre_match_window(db: Database, table: str, pre_match_cutoff: str, current_match_id: str) -> list[dict[str, Any]]:
+def pre_match_window(
+    db: Database, table: str, pre_match_cutoff: str, current_match_id: str
+) -> list[dict[str, Any]]:
     """Vue temporelle du bloc pré-match (§5.2) — jamais un filtre saison entière."""
     sql = PRE_MATCH_WINDOW_SQL.format(table=table)
-    return db.query(sql, {"pre_match_cutoff": pre_match_cutoff, "current_match_id": current_match_id})
+    return db.query(
+        sql,
+        {"pre_match_cutoff": pre_match_cutoff, "current_match_id": current_match_id},
+    )
 
 
 def live_window(

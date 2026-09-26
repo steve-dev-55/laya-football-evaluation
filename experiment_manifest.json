@@ -1,0 +1,105 @@
+{
+  "experiment_id": "laya-football-001",
+  "protocol_version": "2.0.0",
+  "competitions": ["EPL", "LaLiga", "SerieA", "Bundesliga", "Ligue1"],
+  "seasons": ["2021-2022", "2022-2023", "2023-2024"],
+  "primary_source": "LOCAL_FILE (à remplacer : StatsBomb/API-Football/FBref à figer avant collecte)",
+  "secondary_source": "à figer avant la collecte",
+  "cutoffs_seconds": [0, 900, 1800, 2700, 3600, 4500, 5100],
+  "information_tiers": ["A", "B", "C"],
+  "score_bucket_cap": 3,
+  "corners_tail": "21+",
+  "yellow_cards_tail": "13+",
+  "model": {
+    "package": "laya-mock",
+    "version": "laya-mock-1.0.0",
+    "checkpoint": "PINNED_CHECKPOINT",
+    "router_mode": "multilingual"
+  },
+  "bootstrap_replicates": 2000,
+  "alpha": 0.05,
+  "seed": 20260925,
+  "primary_metrics": {
+    "1x2": "log_loss",
+    "score_bucket": "log_loss",
+    "corners": "crps",
+    "yellow_cards": "crps"
+  },
+  "hypotheses": {
+    "H1_progression_temporelle": "la log loss 1X2 diminue lorsque le cutoff passe de pré-match à 85 minutes",
+    "H2_calibration": "la calibration de Laya, mesurée par ECE et log loss, est meilleure que celle de la baseline historique à information identique",
+    "H3_reaction_apres_but": "après un but, la probabilité du vainqueur correspondant augmente en moyenne, toutes choses égales par ailleurs",
+    "H4_robustesse": "les paraphrases sémantiquement équivalentes ne modifient pas fortement la distribution prédictive",
+    "H5_comptages": "pour corners et cartons, la performance de Laya est comparée séparément à une baseline moyenne historique et à un modèle de comptage adapté"
+  },
+  "decisions": {
+    "primary_and_secondary_source": {
+      "value": "principale = LOCAL_FILE (à remplacer : StatsBomb/API-Football/FBref à figer avant collecte) ; secondaire = à figer",
+      "justification": "source de démonstration locale (données synthétiques) ; les sources réelles doivent être figées avant tout test final (§3.2)"
+    },
+    "seasons_and_competitions": {
+      "value": "saisons 2021-2022, 2022-2023, 2023-2024 ; compétitions EPL, LaLiga, SerieA, Bundesliga, Ligue1",
+      "justification": "périmètre §3.1 : 3 saisons complètes sur les 5 grands championnats (split temporel possible §11.1)"
+    },
+    "timezone_and_kickoff": {
+      "value": "tous les horodatages en UTC ISO-8601 « ...Z » ; kickoff = timestamp officiel du coup d'envoi fourni par la source",
+      "justification": "référence temporelle unique et comparable (§5.1) ; aucun fuseau local implicite"
+    },
+    "statistics_availability": {
+      "value": "événements publiés 30 s après l'instant de jeu, statistiques 45 s après, match terminé disponible 96 min après le coup d'envoi",
+      "justification": "délais de publication réels bornés, figés dans agents/cleaner.py (§3.2) — la disponibilité doit être modélisée, pas supposée instantanée"
+    },
+    "second_yellow_card_convention": {
+      "value": "le deuxième carton jaune est compté comme jaune si identifiable, sinon analyse de sensibilité",
+      "justification": "convention §3.5 : le comptage des jaunes reste comparable entre source et cible ; l'analyse de sensibilité couvre les cas non identifiables"
+    },
+    "same_timestamp_events": {
+      "value": "ordre source (elapsed_seconds, source_event_id) conservé + snapshot agrégé de contrôle si plusieurs événements partagent le même instant",
+      "justification": "ordre documenté et reproductible (§6.2) ; la version agrégée permet de contrôler l'effet du choix d'ordre"
+    },
+    "tail_thresholds": {
+      "value": "corners 21+ ; cartons jaunes 13+",
+      "justification": "queues censurées figées (§8.3, §8.4, src/core/tasks.py) — les espérances dérivées sont censurées"
+    },
+    "tiers_definition": {
+      "value": "A = bloc pré-match seul ; B = A + score, cartons, corners, événements ; C = B + tirs, tirs cadrés, possession, xG",
+      "justification": "niveaux d'information §6.3 — identiques pour Laya et les baselines (§10.4)"
+    },
+    "question_wording_and_order": {
+      "value": "QUESTIONS_V1 figé en version v1 ; ordre des critères = listes canoniques SCORE_BUCKETS (17) / CORNER_LEVELS (22) / YELLOW_LEVELS (14)",
+      "justification": "wording versionné §8.5 (src/core/tasks.py) : toute modification créerait une v2, jamais une retouche silencieuse"
+    },
+    "laya_checkpoint": {
+      "value": "PINNED_CHECKPOINT (à remplacer à l'exécution réelle)",
+      "justification": "checkpoint du client mock déterministe ; le checkpoint réel du SDK sera figé et hashé avant la collecte (§2.1)"
+    },
+    "repetition_count": {
+      "value": "audit de répétition k = 5 sur au moins 10 % des snapshots, échantillon déterministe stratifié par tier",
+      "justification": "règle §9.2 : sorties identiques → une requête suffit ; sinon k = 5 pour tous les snapshots ou règle d'agrégation figée avant le test"
+    },
+    "temporal_split": {
+      "value": "entraînement = 2021-2022 et 2022-2023 ; test final = 2023-2024 ; matchs d'un même jour dans le même bloc",
+      "justification": "découpage temporel §11.1 (jamais de split aléatoire de snapshots) ; le test final n'est jamais consulté pour les choix de modèle"
+    },
+    "primary_metrics": {
+      "value": "1x2 = log_loss ; score_bucket = log_loss ; corners = crps ; yellow_cards = crps",
+      "justification": "une métrique principale par cible (§12, §11.3) — les autres métriques sont secondaires/descriptives"
+    },
+    "bootstrap_replicates": {
+      "value": "2000 réplications bootstrap groupées par match, alpha = 0.05",
+      "justification": "minimum §12.5 ; les snapshots d'un même match ne sont pas indépendants (§11.2)"
+    },
+    "holm_bonferroni_families": {
+      "value": "une famille par cible (4 familles : 1x2, score_bucket, corners, yellow_cards), référence = laya",
+      "justification": "familles définies avant le test final (§12.5, agents/evaluator.py COMPARISON_FAMILIES)"
+    },
+    "blocking_and_resume_criteria": {
+      "value": "blocage si > 5 % de snapshots fuyants, > 10 % de matchs manquants dans une strate obligatoire, > 5 % de réponses invalides ; reprise = relance idempotente de l'étape (--resume, §0.4)",
+      "justification": "seuils §11.4 ; un checkpoint ou une tâche non versionné bloque également le run"
+    },
+    "missing_data_rule": {
+      "value": "null, aucune imputation",
+      "justification": "les données manquantes sont rapportées, jamais masquées par une imputation opportuniste (§7.2, §18)"
+    }
+  }
+}

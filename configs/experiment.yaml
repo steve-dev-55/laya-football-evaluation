@@ -1,0 +1,84 @@
+# Configuration de l'expérience — Laya Football Evaluation (protocole v2.0.0).
+#
+# Toutes les clés exigées par agents/common.py::load_config sont présentes ;
+# les sous-structures correspondent exactement aux lectures cfg[...] du code
+# existant (agents/*.py). Ce fichier est le point d'entrée du pipeline §16 :
+#   python -m agents.orchestrator --config configs/experiment.yaml
+#
+# AVERTISSEMENT : source = fichiers locaux (données SYNTHÉTIQUES générées par
+# scripts/generate_synthetic_data.py pour la CI/démonstration). Aucune donnée
+# réelle n'est utilisée ; l'adaptateur réseau réel sera branché à l'étape
+# d'exécution (§3.2) sans modifier le pipeline.
+
+# --- Identité du run (annexe A/B) -------------------------------------------
+experiment_id: laya-football-001
+
+# --- Périmètre (§3.1) --------------------------------------------------------
+competitions: [EPL, LaLiga, SerieA, Bundesliga, Ligue1]
+seasons:
+  - "2021-2022"
+  - "2022-2023"
+  - "2023-2024"
+
+# --- Plan de snapshots (§5, §6.1) ---------------------------------------------
+cutoffs_seconds: [0, 900, 1800, 2700, 3600, 4500, 5100]
+information_tiers: [A, B, C]
+
+# --- Reproductibilité (§17) ---------------------------------------------------
+seed: 20260925
+
+# --- Découpage temporel (§11.1) — lu par agents/baselines.py + evaluator.py ---
+split:
+  train_seasons:
+    - "2021-2022"
+    - "2022-2023"
+  test_seasons:
+    - "2023-2024"
+
+# --- Seuils de blocage §11.4 — lus par cleaner/snapshot/laya/evaluator --------
+thresholds:
+  max_snapshot_leakage_rate: 0.05   # > 5 % de snapshots fuyants → blocage
+  max_stratum_missing_rate: 0.10     # > 10 % de matchs manquants par strate
+  max_invalid_response_rate: 0.05    # > 5 % de réponses Laya invalides
+
+# --- Plan statistique (§12.5) --------------------------------------------------
+bootstrap:
+  replicates: 2000                  # minimum protocole §12.5
+  alpha: 0.05
+  ece_bins: 15                      # bins ECE annoncés (§12.4)
+
+# --- Métriques principales par cible (annexe A/B ; utilisé par l'orchestrateur
+#     pour construire le manifeste si absent, et par l'analyste) ---------------
+primary_metrics:
+  1x2: log_loss
+  score_bucket: log_loss
+  corners: crps
+  yellow_cards: crps
+
+# --- Système sous test (§2) : client mock déterministe pour la CI -------------
+laya:
+  client: mock                      # mock | sdk (sdk sera branché à l'exécution)
+  task_version: v1                  # QUESTIONS_V1, seule version existante (§8.5)
+  model_version: laya-mock-1.0.0
+
+# --- Audit de répétition (§9.2) -------------------------------------------------
+repetition_audit:
+  k: 5
+  min_share: 0.10
+
+# --- Source (§3.2) --------------------------------------------------------------
+source:
+  adapter: local_file
+  license: "CC0-1.0 (données synthétiques générées localement)"
+
+# --- Chemins (§4.1) — défauts du dépôt ; surchargés par les tests via tmp_path -
+# paths:
+#   db: data/laya_experiment.db
+#   raw_dir: data/raw
+#   canonical_dir: data/canonical
+#   artifacts_dir: data/artifacts
+#   predictions_dir: data/predictions
+#   evaluation_dir: data/evaluation
+#   reports_dir: reports
+#   logs_dir: logs
+#   manifest: experiment_manifest.json

@@ -62,6 +62,11 @@ def content_hash(obj: Any) -> str:
     return _sha256(canonical_json(obj))
 
 
+def sha256_text(text: str) -> str:
+    """Hash SHA-256 d'une chaîne UTF-8 (identifiants dérivés, artefacts)."""
+    return _sha256(text)
+
+
 def sha256_bytes(data: bytes) -> str:
     """Hash SHA-256 de données brutes (réponses API, fichiers)."""
     return hashlib.sha256(data).hexdigest()

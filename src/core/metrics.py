@@ -109,7 +109,7 @@ def ece(
     total = len(observations)
     acc = 0.0
     for b in range(n_bins):
-        members = [obs for obs, bid in zip(observations, bin_ids) if bid == b]
+        members = [obs for obs, bid in zip(observations, bin_ids, strict=False) if bid == b]
         if not members:
             continue
         conf = sum(p for p, _ in members) / len(members)
@@ -154,7 +154,7 @@ def crps_discrete(dist: dict[str, float], actual_level: int) -> float:
     score = 0.0
     for i in range(n - 1):
         # masse cumulative au-delà du support observé
-        cdf_hi = sum(p for x, p in zip(xs, ps) if x <= xs[i])
+        cdf_hi = sum(p for x, p in zip(xs, ps, strict=False) if x <= xs[i])
         cdf_obs = 1.0 if xs[i] >= actual_level else 0.0
         score += (xs[i + 1] - xs[i]) * (cdf_hi - cdf_obs) ** 2
     return score
@@ -210,7 +210,7 @@ def predictive_interval_coverage(
     # médiane
     cum = 0.0
     median = xs[-1]
-    for x, p in zip(xs, ps):
+    for x, p in zip(xs, ps, strict=False):
         cum += p
         if cum >= 0.5 * total:
             median = x
@@ -265,4 +265,4 @@ def total_variation_distance(p: Sequence[float], q: Sequence[float]) -> float:
     """Distance en variation totale (robustesse, §13.1)."""
     if len(p) != len(q):
         raise ValueError("distributions de longueurs différentes")
-    return 0.5 * sum(abs(pi - qi) for pi, qi in zip(p, q))
+    return 0.5 * sum(abs(pi - qi) for pi, qi in zip(p, q, strict=False))
