@@ -18,7 +18,7 @@
 - **Version of the study protocol:** 2.0.0 (French original authoritative; English adaptation available in the repository)
 - **Persistent identifiers:**
   - Repository (code, MIT): https://github.com/steve-dev-55/laya-football-evaluation
-  - This preregistration: [OSF DOI — assigned on registration]
+  - This preregistration: https://doi.org/10.17605/OSF.IO/TPSQB (public, accepted 2026-09-26)
   - Preprint: [ARXIV ID — optional at registration time]
 - **Existing registrations of this study:** none. This is the first registration of this study.
 

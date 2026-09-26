@@ -12,6 +12,11 @@
 > implementation and full test suite are published **before** running the
 > experiment on real data. Results will follow in a separate release
 > (`v1.0.0-results`). See [docs/publication_process.md](docs/publication_process.md).
+>
+> 📝 **Preregistered on OSF**: [10.17605/OSF.IO/TPSQB](https://doi.org/10.17605/OSF.IO/TPSQB)
+> — frozen corpus: 2 403 matches (StatsBomb Open Data, three complete seasons,
+> ten competitions) · power analysis: MDE₈₀ = 0.009 log loss · registered code
+> state: commit `172b8d6`.
 
 ## What is this?
 

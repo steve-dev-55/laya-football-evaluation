@@ -2,7 +2,7 @@
 
 **Objet du fichier :** modèle d'email pour contacter des chercheurs et groupes de recherche afin de faire connaître le protocole et d'inviter des retours critiques pendant la fenêtre de pré-enregistrement (avant l'exécution de l'étude).
 
-**Placeholders à remplacer avant envoi :** [RESEARCHER NAME] (nom du destinataire), [OSF DOI], [EMAIL] (adresse personnelle d'expédition), [PREPRINT LINK — arXiv], [ONE SPECIFIC POINT]. Le nom d'auteur, l'affiliation et l'URL du dépôt sont déjà en place.
+**Placeholders restants :** [RESEARCHER NAME] (nom du destinataire), [EMAIL] (adresse personnelle d'expédition), [PREPRINT LINK — arXiv], [ONE SPECIFIC POINT]. DOI, nom d'auteur et URL du dépôt sont en place.
 
 ---
 
@@ -35,7 +35,7 @@ The design emphasizes what your work has shown matters: strict point-in-time int
 
 The study is preregistered (no results yet, by design), and the code is open source. Before execution, I would greatly value your critique of the protocol, especially [ONE SPECIFIC POINT — e.g., "the tier design" / "the score-bucket target" / "the clustered inference"].
 
-Protocol: [OSF DOI] — Code: https://github.com/steve-dev-55/laya-football-evaluation — Preprint: [PREPRINT LINK — arXiv]
+Protocol: https://doi.org/10.17605/OSF.IO/TPSQB — Code: https://github.com/steve-dev-55/laya-football-evaluation — Preprint: [PREPRINT LINK — arXiv]
 
 With best regards,
 Steve Djoumessi Mba
@@ -47,7 +47,7 @@ Independent Researcher — [EMAIL]
 
 **Objet :** `Protocole pré-enregistré : évaluation d'un moteur de décision IA comme prédicteur probabiliste en temps réel (retours bienvenus)`
 
-**Corps (~130 mots) :** même structure — présentation en une phrase ; le design (point-in-time strict, baselines équitables, PIT randomisé, bootstrap groupé par match, Holm-Bonferroni) ; le statut (pré-enregistré, sans résultats, par design) ; la demande de critique ciblée ; les liens ([OSF DOI], dépôt GitHub, preprint) ; signature (Steve Djoumessi Mba, Independent Researcher, [EMAIL]).
+**Corps (~130 mots) :** même structure — présentation en une phrase ; le design (point-in-time strict, baselines équitables, PIT randomisé, bootstrap groupé par match, Holm-Bonferroni) ; le statut (pré-enregistré, sans résultats, par design) ; la demande de critique ciblée ; les liens (DOI 10.17605/OSF.IO/TPSQB, dépôt GitHub, preprint) ; signature (Steve Djoumessi Mba, Independent Researcher, [EMAIL]).
 
 ---
 

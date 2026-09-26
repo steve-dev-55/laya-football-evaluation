@@ -1,7 +1,7 @@
 # Post LinkedIn — Français
 
 **Angle :** pratique et rigoureux — moteurs de décision probabiliste temps réel.
-**Placeholders à remplacer avant publication :** [OSF DOI] (assigné à l'étape 3 du processus de publication).
+**Placeholders résolus (DOI attribué) : publier tel quel.**
 **Longueur cible :** ~200 mots.
 
 ---
@@ -19,7 +19,7 @@ Quatre choix rendent cette évaluation crédible :
 
 Si vous travaillez en sports analytics, en forecasting probabiliste ou en évaluation de LLM, votre critique du protocole est la bienvenue — tant qu'il est encore temps de l'améliorer.
 
-Repo : https://github.com/steve-dev-55/laya-football-evaluation — Pré-enregistrement : [OSF DOI]
+Repo : https://github.com/steve-dev-55/laya-football-evaluation — Pré-enregistrement : https://doi.org/10.17605/OSF.IO/TPSQB
 
 #SportsAnalytics #Forecasting #LLM #ScienceOuverte
 
