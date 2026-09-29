@@ -1,32 +1,40 @@
-# Post LinkedIn — Français (variante « allusion Jev »)
+# Post LinkedIn — Français (variante « allusion Jev », v2 sourcée)
 
-**Angle :** notoriété par contraste — Jev comme référence connue, Laya comme version open source auditable.
+**Angle :** Jev (TypeSafe AI) comme référence d'actualité — Laya comme version open source et scientifiquement pré-enregistrée.
+**Source Jev :** annonce officielle TypeSafe AI — https://typesafe.ai/blog/introducing-system-one-models-and-jev
 **Statut : prêt à publier tel quel (aucun placeholder).**
-**Longueur :** ~1 350 caractères visibles. Les 2 premières lignes (visibles avant « …voir plus ») portent l'accroche.
+**Longueur :** ~1 600 caractères visibles (limite LinkedIn 3 000).
 
 ---
 
-Vous connaissez Jev ? Voici Laya — la version open source de Jev.
+Vous avez vu l'annonce ? TypeSafe AI vient de lancer **Jev**, premier « System One Model » : des décisions probabilistes calibrées, ~100× plus rapides qu'un LLM, sans génération de texte donc incapables d'halluciner.
 
-Même terrain : le football, les probabilités, les décisions en temps réel. Une différence fondamentale : ici, tout est vérifiable.
+La direction est la bonne : les logiciels ont besoin de probabilités fiables, pas de textes.
 
-**Pré-enregistrement scientifique** — hypothèses, métriques et seuils figés et publiés AVANT tout test (DOI : 10.17605/OSF.IO/TPSQB). Pas de réécriture de l'histoire possible.
+Mais une question reste ouverte : **comment vérifier qu'un moteur de décision est réellement calibré ?**
 
-**Code 100 % ouvert (MIT)** — un pipeline de 9 agents IA, de la collecte des données au rapport final, auditable ligne par ligne.
+Voici **Laya — la version open source de Jev, pour le football.**
 
-**Anti-fuite automatique** — l'IA ne voit jamais une information qui n'existait pas au moment où elle prédit. Vérifié sur 100 % des snapshots.
+Même philosophie que Jev : un état de match en entrée → des distributions de probabilités structurées en sortie (résultat final, 17 catégories de score, corners, cartons) — en temps réel, du coup d'envoi à la 90e minute.
 
-**Baselines honnêtes** — Poisson, Dixon–Coles, cotes de bookmakers… entraînées exactement sur la même information que l'IA, aux mêmes instants.
+Et une chose que Jev n'a pas : **la vérifiabilité scientifique intégrée.**
 
-Un moteur fermé vous demande de croire sur parole. Laya vous demande de vérifier.
+✅ Pré-enregistrement OSF (DOI : 10.17605/OSF.IO/TPSQB) — hypothèses, métriques et seuils figés AVANT tout test
+✅ Code 100 % open source (MIT) — pipeline de 9 agents, auditable ligne par ligne
+✅ Anti-fuite automatique — l'IA ne voit jamais une information postérieure à sa prédiction (vérifié sur 100 % des snapshots)
+✅ Baselines honnêtes — Poisson, Dixon–Coles, cotes de bookmakers, entraînées sur la même information, aux mêmes instants
 
-L'évaluation démarre sur 2 403 matchs (10 compétitions, 3 saisons complètes). Les résultats seront ce qu'ils seront — c'est précisément le principe d'une étude pré-enregistrée.
+Jev annonce « calibrated ». Laya va le mesurer : ECE, PIT randomisé, log loss, Brier, RPS — bootstrap groupé + Holm-Bonferroni, sur 2 403 matchs.
+
+Un moteur fermé vous demande de croire ses benchmarks.
+Un moteur ouvert vous invite à les vérifier.
 
 Code : https://github.com/steve-dev-55/laya-football-evaluation
 Protocole : https://doi.org/10.17605/OSF.IO/TPSQB
 
-#Football #IA #OpenSource #SportsAnalytics #ScienceOuverte
+#AI #Calibration #OpenSource #SportsAnalytics #ScienceOuverte
 
 ---
 
-*Note : « Jev » est cité en allusion de notoriété, sans affirmation factuelle sur ce produit — si un comparatif chiffré doit être ajouté, il devra être sourcé et daté. Ne pas publier de claim de performance : l'étude n'a pas encore de résultats (phase pré-enregistrement).*
+*Note interne : toutes les affirmations sur Jev proviennent de l'annonce publique TypeSafe AI (lien en tête de fichier). Aucune affiliation entre ce projet et TypeSafe AI ; « version open source de Jev » = positionnement par analogie (moteur de décision probabiliste open source), pas une affirmation technique d'équivalence. Ne pas publier de claim de performance Laya : l'étude n'a pas encore de résultats (phase pré-enregistrement).*
+*Astuce portée : publier le lien de l'annonce Jev (https://typesafe.ai/blog/introducing-system-one-models-and-jev) en PREMIER COMMENTAIRE plutôt que dans le post, pour préserver la portée LinkedIn.*
