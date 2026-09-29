@@ -2,13 +2,13 @@
 
 **Date :** 2026-09-29
 **Scope :** étape 4/5 du processus de publication — exécution réelle (phase d'intégration)
-**Commit :** f84dce6 · CI verte (142 tests, lint propre)
+**Commit :** 48a9cfa · CI verte (142 tests, lint propre)
 
 ---
 
 ## Ce que contient cette release
 
-### 1. Validation d'infrastructure sur corpus réel (4a — commit edd04c1)
+### 1. Validation d'infrastructure sur corpus réel (4a — commit be7cbf3)
 
 Le pipeline complet §16 a été exécuté sur le corpus figé StatsBomb Open Data
 (2 401 matchs collectés sur 2 403 visés, 125 340 snapshots, 10 compétitions,
@@ -24,7 +24,7 @@ Ceci prouve que l'infrastructure d'évaluation (collecte → nettoyage →
 snapshots → prédictions → baselines → évaluation) fonctionne sur les données
 réelles avant l'exécution confirmatoire.
 
-### 2. Intégration du SDK Laya réel (4b — commit f84dce6)
+### 2. Intégration du SDK Laya réel (4b — commit 48a9cfa)
 
 `RealLayaClient` (`agents/laya.py`) branche le système sous test réel :
 
@@ -48,17 +48,20 @@ d'infrastructure, sans toucher au plan scientifique :
 
 ### 4. Pilot d'intégration exécuté sur états réels
 
-`run_sdk_pilot_001` (147 snapshots stratifiés cutoff × tier + audit de
-répétition k=5 sur ≥ 10 %) :
+`run_sdk_pilot_001` — 147 snapshots stratifiés (cutoff fixe × tier, 21
+par cutoff) + audit de répétition k = 5 sur 15 snapshots (10,2 %), run
+clôturé `validated` (artefacts : `data/real/artifacts/run_sdk_pilot_001/`,
+synthèse : `reports/real/pilot_sdk_summary.md`) :
 
-- **validité des réponses : 147/147 (0,0000 d'invalidité)** — le format du
-  SDK passe le validateur §8.6 avec la tolérance D1 ;
-- **déterminisme : sorties strictement identiques** sur les k=5 répétitions
-  (JS max = 0, changement de décision = 0) — §9.2 validé ;
-- latences réelles mesurées (p50/p95/max) : voir
-  `reports/real/pilot_sdk_summary.md`.
-
-*(Les chiffres ci-dessus sont mis à jour à la finalisation du pilot.)*
+- **validité des réponses : 147/147 — 0,0000 d'invalidité** (seuil §11.4 :
+  5 %) : le format du SDK réel passe le validateur §8.6 avec la tolérance D1 ;
+- **déterminisme (§9.2) : sorties strictement identiques** sur les k = 5
+  répétitions — distance de Jensen-Shannon max = 0,0 ; changements de
+  décision = 0,0 ;
+- **latences réelles** (CPU 2 cœurs, fp32, max_len 2048) : p50 = 20,6 s ·
+  p95 = 21,5 s · max = 36,7 s · moyenne = 20,9 s — stable par cutoff
+  (20,2 à 22,1 s), cohérente avec l'extrapolation A3 §8 (GPU T4 requis
+  pour le run complet).
 
 ### 5. Run confirmatoire — prêt à exécuter
 
@@ -87,4 +90,4 @@ requêtes vs ~500 h sur le CPU 2 cœurs du dépôt de développement).
 
 - SHA-256 du protocole : `d8a3c83b…f4e8ea` (inchangé) ;
 - pré-enregistrement OSF : [10.17605/OSF.IO/TPSQB](https://doi.org/10.17605/OSF.IO/TPSQB) ;
-- état enregistré : commit `172b8d6` ; cette release : `f84dce6`.
+- état enregistré : commit `172b8d6` ; cette release : `48a9cfa`.
