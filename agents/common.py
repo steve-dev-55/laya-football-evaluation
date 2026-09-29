@@ -193,6 +193,59 @@ def config_paths(cfg: Mapping[str, Any]) -> dict[str, Path]:
     return {k: Path(v) for k, v in cfg["paths"].items()}
 
 
+def resolve_split(
+    cfg: Mapping[str, Any], matches: list[dict[str, Any]]
+) -> tuple[set[str], set[str]]:
+    """Résout le découpage train/test en (train_match_ids, test_match_ids).
+
+    Deux modes (clé `split.mode`) :
+
+    - ``by_season`` (défaut, comportement historique) : matchs des saisons
+      listées dans `split.train_seasons` / `split.test_seasons`.
+    - ``chronological_per_competition`` (AMENDEMENT A2, figé avant
+      enregistrement OSF — experiment_manifest.json) : chaque compétition est
+      coupée chronologiquement en deux moitiés (entraînement = première
+      moitié, test final = seconde) ; les matchs d'un même jour restent dans
+      le même bloc. Règle de frontière : les jours sont parcourus dans
+      l'ordre et inclus au bloc entraînement jusqu'au premier jour où le
+      cumul atteint ``train_fraction`` (défaut 0,5) des matchs de la
+      compétition, ce jour frontière entier inclus à l'entraînement.
+    """
+    split = cfg["split"]
+    mode = split.get("mode", "by_season")
+    if mode == "by_season":
+        train_seasons = set(split["train_seasons"])
+        test_seasons = set(split["test_seasons"])
+        train = {m["match_id"] for m in matches if m["season"] in train_seasons}
+        test = {m["match_id"] for m in matches if m["season"] in test_seasons}
+        return train, test
+    if mode == "chronological_per_competition":
+        fraction = float(split.get("train_fraction", 0.5))
+        by_comp: dict[str, list[dict[str, Any]]] = {}
+        for m in matches:
+            by_comp.setdefault(m["competition_id"], []).append(m)
+        train: set[str] = set()
+        test: set[str] = set()
+        for comp_matches in by_comp.values():
+            ordered = sorted(
+                comp_matches,
+                key=lambda m: (m["kickoff_timestamp"], m["match_id"]),
+            )
+            total = len(ordered)
+            target = fraction * total
+            train_days: set[str] = set()
+            for idx, m in enumerate(ordered):
+                if idx < target:
+                    train_days.add(m["date_utc"])
+            for m in ordered:
+                if m["date_utc"] in train_days:
+                    train.add(m["match_id"])
+                else:
+                    test.add(m["match_id"])
+        return train, test
+    raise ConfigError(f"mode de découpage inconnu : {mode!r}")
+
+
 # --- Journalisation (§15) ---------------------------------------------------
 
 

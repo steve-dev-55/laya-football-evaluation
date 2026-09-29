@@ -37,6 +37,7 @@ from agents.common import (
     load_config,
     log_error,
     log_event,
+    resolve_split,
     setup_logging,
     sha256_text,
     write_artifact,
@@ -364,22 +365,26 @@ def run_baselines(config_path: str | Path, run_id: str) -> int:
 
     db = Database(paths["db"])
     db.init()
-    snapshots = db.query(
-        "SELECT * FROM match_snapshots WHERE validation_status = 'validated' "
-        "ORDER BY snapshot_id"
-    )
+    # Mémoire (corpus réel : ~125 000 snapshots avec state_json volumineux) :
+    # pagination + écriture au fil de l'eau — sémantique identique (l'ordre
+    # snapshot_id est préservé, les fichiers JSONL sont réécrits intégralement
+    # à chaque exécution comme auparavant).
     matches_by_id = {m["match_id"]: m for m in db.query("SELECT * FROM matches")}
-    train_seasons = list(cfg["split"]["train_seasons"])
-    test_seasons = list(cfg["split"]["test_seasons"])
+    # Découpage §11.1 : par saison OU chronologique 50/50 par compétition
+    # (amendement A2 — cf. agents/common.py::resolve_split).
+    train_match_ids, test_match_ids = resolve_split(cfg, list(matches_by_id.values()))
 
     # --- Entraînement de la régression logistique (§11.1) -------------------
+    # Pré-matchs d'entraînement : requête ciblée (cutoff 0, tier B) — les
+    # snapshots autres que pré-match ne sont pas chargés inutilement.
     train_rows = [
-        s for s in snapshots
-        if matches_by_id[s["match_id"]]["season"] in train_seasons
-        and s["cutoff_seconds"] == 0
-        and s["information_tier"] == "B"
+        s for s in db.query(
+            "SELECT * FROM match_snapshots WHERE validation_status = 'validated' "
+            "AND cutoff_seconds = 0 AND information_tier = 'B' ORDER BY snapshot_id"
+        )
+        if s["match_id"] in train_match_ids
     ]
-    train_match_ids = {s["match_id"] for s in train_rows}
+    train_match_ids = train_match_ids & {s["match_id"] for s in train_rows}
     if len(train_rows) < 10:
         log_error(paths["logs_dir"], AGENT_NAME, run_id, "train",
                   f"trop peu de pré-matchs d'entraînement : {len(train_rows)}")
@@ -412,11 +417,6 @@ def run_baselines(config_path: str | Path, run_id: str) -> int:
     classes = list(logistic.named_steps["clf"].classes_)
 
     # Vérification bloquante §14.7 : aucun match du test final à l'entraînement.
-    test_match_ids = {
-        m["match_id"]
-        for m in matches_by_id.values()
-        if m["season"] in test_seasons
-    }
     leak = sorted(train_match_ids & test_match_ids)
     if leak:
         log_error(paths["logs_dir"], AGENT_NAME, run_id, "train",
@@ -432,41 +432,58 @@ def run_baselines(config_path: str | Path, run_id: str) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     windows: dict[str, list[dict[str, Any]]] = {}
     aggs: dict[str, dict[str, Any]] = {}
-    per_model_rows: dict[str, list[dict[str, Any]]] = {m: [] for m in MODEL_VERSIONS}
     counts: dict[str, dict[str, int]] = {}
+    handles = {m: (out_dir / f"{m}.jsonl").open("w", encoding="utf-8")
+               for m in MODEL_VERSIONS}
+    page_size = 10_000
+    page_start = 0
+    n_done = 0
+    total_snaps = db.query(
+        "SELECT COUNT(*) AS n FROM match_snapshots "
+        "WHERE validation_status = 'validated'"
+    )[0]["n"]
 
-    for snap in snapshots:
-        match = matches_by_id[snap["match_id"]]
-        state = json.loads(snap["state_json"])
-        nums = _live_numbers(state)
-        window_key = match["match_id"]
-        if window_key not in aggs:
-            aggs[window_key] = _league_aggregates(_past_window(db, match, windows))
-        agg = aggs[window_key]
-        models_for_snapshot: dict[str, dict[str, dict[str, float]] | None] = {
-            "uniform": _uniform(),
-            "historical_frequency": _historical_frequency(agg),
-            "current_score": _current_score(nums),
-            "persistence": _persistence(nums, agg),
-            "poisson": _poisson(nums, match, agg),
-        }
-        # La logistique ne prédit que les snapshots de la saison test (§11.1) :
-        # l'entraînement n'utilise que les périodes anciennes.
-        logistic_tasks: dict[str, dict[str, float]] | None = None
-        if match["season"] in test_seasons:
-            proba = logistic.predict_proba([_extract_features(state)])[0]
-            one_x_two = _exact_sum(
-                {cls: float(p) for cls, p in zip(classes, proba, strict=False)}
-            )
-            logistic_tasks = {"one_x_two": one_x_two}
-        models_for_snapshot["logistic_1x2"] = logistic_tasks
+    while True:
+        snapshots = db.query(
+            "SELECT * FROM match_snapshots WHERE validation_status = 'validated' "
+            "ORDER BY snapshot_id LIMIT ? OFFSET ?",
+            (page_size, page_start),
+        )
+        if not snapshots:
+            break
+        page_start += len(snapshots)
+        # Pagination (corpus réel) : lignes écrites au fil de l'eau dans les
+        # mêmes fichiers JSONL (réécriture intégrale à chaque exécution).
+        for snap in snapshots:
+            match = matches_by_id[snap["match_id"]]
+            state = json.loads(snap["state_json"])
+            nums = _live_numbers(state)
+            window_key = match["match_id"]
+            if window_key not in aggs:
+                aggs[window_key] = _league_aggregates(_past_window(db, match, windows))
+            agg = aggs[window_key]
+            models_for_snapshot: dict[str, dict[str, dict[str, float]] | None] = {
+                "uniform": _uniform(),
+                "historical_frequency": _historical_frequency(agg),
+                "current_score": _current_score(nums),
+                "persistence": _persistence(nums, agg),
+                "poisson": _poisson(nums, match, agg),
+            }
+            # La logistique ne prédit que les snapshots du test final (§11.1) :
+            # l'entraînement n'utilise que les périodes anciennes.
+            logistic_tasks: dict[str, dict[str, float]] | None = None
+            if match["match_id"] in test_match_ids:
+                proba = logistic.predict_proba([_extract_features(state)])[0]
+                one_x_two = _exact_sum(
+                    {cls: float(p) for cls, p in zip(classes, proba, strict=False)}
+                )
+                logistic_tasks = {"one_x_two": one_x_two}
+            models_for_snapshot["logistic_1x2"] = logistic_tasks
 
-        for model, tasks in models_for_snapshot.items():
-            if tasks is None:
-                continue
-            rows = per_model_rows[model]
-            rows.append(
-                {
+            for model, tasks in models_for_snapshot.items():
+                if tasks is None:
+                    continue
+                row = {
                     "prediction_id": compute_prediction_id(
                         run_id, snap["snapshot_id"], MODEL_VERSIONS[model]
                     ),
@@ -477,27 +494,33 @@ def run_baselines(config_path: str | Path, run_id: str) -> int:
                     "status": "valid",
                     "tasks": tasks,
                 }
-            )
+                handles[model].write(canonical_json(row) + "\n")
+        n_done += len(snapshots)
+        log_event(logger, "progress", "ok",
+                  f"{n_done}/{total_snaps} snapshots", run_id=run_id)
+        if len(snapshots) < page_size:
+            break
 
-    for model, rows in per_model_rows.items():
-        path = out_dir / f"{model}.jsonl"
-        with path.open("w", encoding="utf-8") as fh:
-            for row in rows:
-                fh.write(canonical_json(row) + "\n")
+    for model, fh in handles.items():
+        fh.close()
+        n = sum(1 for _ in (out_dir / f"{model}.jsonl").open("rb"))
         counts[model] = {
-            "n_predictions": len(rows),
-            "n_valid": len(rows),
+            "n_predictions": n,
+            "n_valid": n,
             "n_invalid": 0,
         }
         log_event(logger, "model", "ok",
-                  f"{model} predictions={len(rows)}", run_id=run_id)
+                  f"{model} predictions={n}", run_id=run_id)
 
     payload = {
         "models": counts,
         "model_versions": MODEL_VERSIONS,
         "training": {
             "logistic_1x2": {
-                "train_seasons": train_seasons,
+                "split_mode": cfg["split"].get("mode", "by_season"),
+                "train_seasons": sorted(
+                    {matches_by_id[mid]["season"] for mid in train_match_ids}
+                ),
                 "train_match_ids": sorted(train_match_ids),
                 "n_train_matches": len(train_match_ids),
                 "min_kickoff": train_kickoffs[0] if train_kickoffs else None,

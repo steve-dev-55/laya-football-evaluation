@@ -19,19 +19,23 @@ Usage (§16) :
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
 import json
+import time
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
-from agents.baselines import load_baseline_predictions
 from agents.common import (
     bulk_upsert,
     config_paths,
+    iter_jsonl,
     load_config,
     log_error,
     log_event,
     now_utc,
+    resolve_split,
     setup_logging,
     sha256_text,
     write_artifact,
@@ -199,40 +203,70 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
     alpha = float(cfg["bootstrap"]["alpha"])
     n_bins = int(cfg["bootstrap"].get("ece_bins", 15))
 
+    # Adaptation d'exécution (corpus réel : ~815 000 prédictions évaluées,
+    # ~3 Go d'objets vivants dans `evaluated`) : le ramasse-miette
+    # générationnel de Python balaye l'intégralité des objets à chaque
+    # collection de génération 2, ce qui multiplie par >10 la durée des
+    # agrégats. Désactivé pendant le run (traitement de données sans cycles
+    # réels ; réactivé à la fin, cf. gc.enable avant chaque retour).
+    gc.disable()
+    gc.freeze()
+
     snapshots = {
-        s["snapshot_id"]: s for s in db.query("SELECT * FROM match_snapshots")
+        s["snapshot_id"]: s
+        for s in db.query(
+            # Colonnes nécessaires uniquement (mémoire : le corpus réel
+            # stocke ~125 000 state_json volumineux — jamais chargés ici).
+            "SELECT snapshot_id, match_id, cutoff_seconds, information_tier, "
+            "snapshot_type, validation_status FROM match_snapshots"
+        )
     }
     matches_by_id = {m["match_id"]: m for m in db.query("SELECT * FROM matches")}
-    test_seasons = set(cfg["split"]["test_seasons"])
+    # Découpage §11.1/A2 : identiques aux baselines (agents/common.py).
+    _, test_match_ids = resolve_split(cfg, list(matches_by_id.values()))
 
     # Prédictions Laya (base) + baselines (JSONL, mêmes snapshots §10.4).
-    laya_rows = db.query(
-        "SELECT * FROM laya_predictions WHERE run_id = ? AND status = 'valid'",
-        (run_id,),
-    )
-    baseline_preds = load_baseline_predictions(paths["predictions_dir"], run_id)
-    predictions: list[dict[str, Any]] = []
-    for row in laya_rows:
-        predictions.append(
-            {
-                "prediction_id": row["prediction_id"],
-                "model": "laya",
-                "snapshot_id": row["snapshot_id"],
-                "tasks": json.loads(row["parsed_response"]),
-                "latency_ms": row["latency_ms"],
-            }
-        )
-    for model, rows in baseline_preds.items():
-        for row in rows:
-            predictions.append(
-                {
-                    "prediction_id": row["prediction_id"],
-                    "model": model,
-                    "snapshot_id": row["snapshot_id"],
-                    "tasks": row["tasks"],
-                    "latency_ms": None,
-                }
+    # Mémoire (corpus réel : ~815 000 prédictions, ~670 Mo de JSONL) :
+    # traitement EN FLUX — pages DB pour Laya, lecture ligne à ligne des
+    # JSONL de baselines ; les lignes d'évaluation sont upsertées par lots
+    # de 10 000 (idempotence §0.4, clé evaluation_id). Sémantique identique
+    # au chargement intégral : chaque prédiction est traitée exactement une
+    # fois, dans le même ordre (Laya puis baselines par ordre de fichier).
+    def _prediction_stream() -> Iterable[dict[str, Any]]:
+        page_size = 10_000
+        offset = 0
+        while True:
+            rows = db.query(
+                "SELECT prediction_id, snapshot_id, parsed_response, "
+                "latency_ms FROM laya_predictions "
+                "WHERE run_id = ? AND status = 'valid' "
+                "ORDER BY prediction_id LIMIT ? OFFSET ?",
+                (run_id, page_size, offset),
             )
+            if not rows:
+                break
+            offset += len(rows)
+            for row in rows:
+                yield {
+                    "prediction_id": row["prediction_id"],
+                    "model": "laya",
+                    "snapshot_id": row["snapshot_id"],
+                    "tasks": json.loads(row["parsed_response"]),
+                    "latency_ms": row["latency_ms"],
+                }
+            if len(rows) < page_size:
+                break
+        out_dir = paths["predictions_dir"] / run_id / "baselines"
+        if out_dir.is_dir():
+            for path in sorted(out_dir.glob("*.jsonl")):
+                for row in iter_jsonl(path):
+                    yield {
+                        "prediction_id": row["prediction_id"],
+                        "model": path.stem,
+                        "snapshot_id": row["snapshot_id"],
+                        "tasks": row["tasks"],
+                        "latency_ms": None,
+                    }
 
     # Jointure avec les labels finaux — uniquement ici, après prédiction.
     evaluated: list[dict[str, Any]] = []
@@ -246,7 +280,20 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
         "SELECT COUNT(*) AS n FROM laya_predictions WHERE run_id = ?", (run_id,)
     )[0]["n"]
 
-    for pred in predictions:
+    def _flush_eval_rows() -> None:
+        if evaluation_rows:
+            bulk_upsert(db, "evaluation", evaluation_rows, on_conflict="ignore")
+            evaluation_rows.clear()
+
+    t_phase = {"start": time.monotonic()}
+
+    def _phase(name: str) -> None:
+        now = time.monotonic()
+        log_event(logger, "phase", "ok",
+                  f"{name} en {now - t_phase['start']:.0f}s cumulés", run_id=run_id)
+        t_phase["start"] = now
+
+    for pred in _prediction_stream():
         snap = snapshots.get(pred["snapshot_id"])
         if snap is None or snap["validation_status"] != "validated":
             continue  # dénominateur publié : snapshot non validé exclu
@@ -298,15 +345,18 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
                 "created_at": now_utc(),
             }
         )
+        if len(evaluation_rows) >= 10_000:
+            _flush_eval_rows()
     # Lignes validées jamais modifiées par une relance (idempotence §0.4).
-    bulk_upsert(db, "evaluation", evaluation_rows, on_conflict="ignore")
+    _flush_eval_rows()
 
+    _phase("boucle d'évaluation")
     # --- Dénominateurs (§19.2.5) --------------------------------------------
     models = sorted({row["model"] for row in evaluated} | {"laya"})
     denominators: dict[str, dict[str, Any]] = {}
     for model in models:
         rows = [r for r in evaluated if r["model"] == model]
-        test_rows = [r for r in rows if r["season"] in test_seasons]
+        test_rows = [r for r in rows if r["match_id"] in test_match_ids]
         denominators[model] = {
             "n_predictions": len(rows),
             "n_predictions_test_scope": len(test_rows),
@@ -325,7 +375,7 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
     # --- Agrégats bootstrap groupé par match (§11.2, §12.5) -----------------
     scopes = {
         "all": evaluated,
-        "test": [r for r in evaluated if r["season"] in test_seasons],
+        "test": [r for r in evaluated if r["match_id"] in test_match_ids],
     }
     aggregates: dict[str, dict[str, dict[str, Any]]] = {}
     for scope, rows in scopes.items():
@@ -352,11 +402,18 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
             aggregates[scope][model] = entry
 
     # Ventilations descriptives (moyennes + effectifs, sans IC).
+    # Correctif d'exécution (corpus réel) : les snapshots événementiels (§6.2)
+    # produisent des milliers de cutoffs distincts à la seconde près — le
+    # filtrage par cutoff en passe complète (O(n_cutoffs × n_rows)) devient
+    # prohibitif. Groupement en UNE passe (sémantique identique).
     by_cutoff: dict[str, dict[str, dict[str, float]]] = {}
-    for cutoff in sorted({r["cutoff"] for r in evaluated}):
+    cutoff_groups: dict[int, list[dict[str, Any]]] = {}
+    for r in evaluated:
+        if r["match_id"] in test_match_ids:
+            cutoff_groups.setdefault(r["cutoff"], []).append(r)
+    for cutoff in sorted(cutoff_groups):
         by_cutoff[str(cutoff)] = _descriptive(
-            [r for r in evaluated
-             if r["cutoff"] == cutoff and r["season"] in test_seasons],
+            cutoff_groups[cutoff],
             ["log_loss_1x2", "score_bucket_log_loss", "corners_crps",
              "yellows_crps"],
         )
@@ -364,16 +421,17 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
     # `_descriptive(key=...)` mélangeait les modèles dans une même strate ;
     # les ventilations sont désormais par (modèle, strate) sur le scope test.
     by_tier = _descriptive(
-        [r for r in evaluated if r["season"] in test_seasons],
+        [r for r in evaluated if r["match_id"] in test_match_ids],
         ["log_loss_1x2", "score_bucket_log_loss", "corners_crps", "yellows_crps"],
         key="tier",
     )
     by_competition = _descriptive(
-        [r for r in evaluated if r["season"] in test_seasons],
+        [r for r in evaluated if r["match_id"] in test_match_ids],
         ["log_loss_1x2", "score_bucket_log_loss", "corners_crps", "yellows_crps"],
         key="competition",
     )
 
+    _phase("ventilations")
     # --- Calibration (§12.4) ------------------------------------------------
     calibration: dict[str, Any] = {}
     for model in models:
@@ -391,6 +449,7 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
             "n_observations": len(observations),
         }
 
+    _phase("calibration")
     # --- Comparaisons par modèle avec Holm-Bonferroni (§12.5) ----------------
     comparisons: dict[str, Any] = {}
     for family, (metric, _target) in COMPARISON_FAMILIES.items():
@@ -411,9 +470,11 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
                 ),
             }
 
+    _phase("comparaisons Holm")
     # --- Réaction aux événements (H3, §13.3, descriptif) --------------------
     event_reactions = _goal_reaction_analysis(db, run_id, snapshots)
 
+    _phase("réactions aux buts (H3)")
     # --- Hypothèses pré-enregistrées (§1.3) ----------------------------------
     hypotheses = _hypotheses(aggregates, comparisons, calibration, event_reactions)
 
@@ -481,6 +542,7 @@ def run_evaluator(config_path: str | Path, run_id: str) -> int:
         db.close()
         return 1
     db.close()
+    gc.enable()
     log_event(logger, "end", "ok", "évaluation terminée", run_id=run_id)
     return 0
 
@@ -532,37 +594,69 @@ def _goal_reaction_analysis(
     db: Database, run_id: str, snapshots: dict[str, dict[str, Any]]
 ) -> dict[str, Any]:
     """Réaction après but (H3, §13.3) : variation de la probabilité du côté
-    qui marque entre le snapshot précédent et le snapshot de but (laya, test)."""
-    rows = db.query(
-        "SELECT p.*, s.snapshot_type, s.cutoff_seconds, s.information_tier, "
-        "s.state_json, s.match_id FROM laya_predictions p "
+    qui marque entre le snapshot précédent et le snapshot de but (laya, test).
+
+    Mémoire (corpus réel) : balayage par curseur ordonné (match, cutoff,
+    snapshot_id) au lieu d'un chargement intégral ; le « snapshot précédent »
+    d'un but est le dernier snapshot du même match/tier à cutoff STRICTEMENT
+    inférieur — exactement la règle de ``_previous_snapshot`` (dernier groupe
+    de cutoff complété lors du balayage)."""
+    deltas: list[float] = []
+    cur = db.conn.execute(
+        "SELECT p.probability_1, p.probability_x, p.probability_2, "
+        "s.snapshot_id, s.snapshot_type, s.cutoff_seconds, s.state_json, "
+        "s.match_id FROM laya_predictions p "
         "JOIN match_snapshots s ON p.snapshot_id = s.snapshot_id "
         "WHERE p.run_id = ? AND p.status = 'valid' "
-        "ORDER BY s.match_id, s.cutoff_seconds, s.information_tier",
+        "AND s.information_tier = 'B' "
+        "ORDER BY s.match_id, s.cutoff_seconds, s.snapshot_id",
         (run_id,),
     )
-    deltas: list[float] = []
-    for row in rows:
-        if row["snapshot_type"] != "goal" or row["information_tier"] != "B":
-            continue
-        state = json.loads(row["state_json"])
-        previous = _previous_snapshot(db, row["match_id"], row["cutoff_seconds"],
-                                      row["information_tier"], run_id)
-        if previous is None:
-            continue
-        prev_state = json.loads(previous["state_json"])
-        cur_score = (state.get("live") or {}).get("score") or {}
-        prev_score = (prev_state.get("live") or {}).get("score") or {}
-        home_scored = int(cur_score.get("home") or 0) > int(prev_score.get("home") or 0)
-        away_scored = int(cur_score.get("away") or 0) > int(prev_score.get("away") or 0)
-        if not (home_scored ^ away_scored):
-            continue  # but simultané ou information inchangée
-        p_key = "probability_1" if home_scored else "probability_2"
-        try:
-            delta = float(row[p_key]) - float(previous[p_key])
-        except (TypeError, ValueError):
-            continue
-        deltas.append(delta)
+    cols = [d[0] for d in cur.description]
+    # Dernier groupe de cutoff complété par match (cutoff strictement
+    # inférieur au groupe en cours) : (p1, px, p2, home, away).
+    prev_by_match: dict[str, tuple[Any, ...]] = {}
+    group_cutoff: dict[str, int] = {}
+    group_last: dict[str, tuple[Any, ...]] = {}
+
+    def _scores(state_json: str) -> tuple[int, int]:
+        state = json.loads(state_json)
+        score = (state.get("live") or {}).get("score") or {}
+        return int(score.get("home") or 0), int(score.get("away") or 0)
+
+    while True:
+        batch = cur.fetchmany(2_000)
+        if not batch:
+            break
+        for tup in batch:
+            row = dict(zip(cols, tup, strict=True))
+            mid = row["match_id"]
+            cutoff = row["cutoff_seconds"]
+            if mid in group_cutoff and group_cutoff[mid] != cutoff:
+                prev_by_match[mid] = group_last[mid]
+                group_cutoff[mid] = cutoff
+            elif mid not in group_cutoff:
+                group_cutoff[mid] = cutoff
+            group_last[mid] = (
+                row["probability_1"], row["probability_x"], row["probability_2"],
+                *(_scores(row["state_json"])),
+            )
+            if row["snapshot_type"] != "goal" or mid not in prev_by_match:
+                continue
+            previous = prev_by_match[mid]
+            cur_h, cur_a = _scores(row["state_json"])
+            prev_h, prev_a = int(previous[3]), int(previous[4])
+            home_scored = cur_h > prev_h
+            away_scored = cur_a > prev_a
+            if not (home_scored ^ away_scored):
+                continue  # but simultané ou information inchangée
+            p_val = row["probability_1"] if home_scored else row["probability_2"]
+            p_prev = previous[0] if home_scored else previous[2]
+            try:
+                delta = float(p_val) - float(p_prev)
+            except (TypeError, ValueError):
+                continue
+            deltas.append(delta)
     return {
         "mean_delta_p_scoring_side": (
             round(sum(deltas) / len(deltas), 6) if deltas else None

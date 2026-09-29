@@ -193,7 +193,27 @@ def collect(config_path: str | Path, run_id: str) -> int:
     )
 
     adapter = LocalFileSource(paths["raw_dir"])
-    documents = adapter.list_documents(list(cfg["competitions"]), list(cfg["seasons"]))
+    # Périmètre : produit cartésien (comportement historique, grille complète)
+    # OU paires explicites `source.corpus_pairs` (corpus réel A1 : chaque
+    # compétition n'existe que pour une saison — cf. docs/frozen_corpus.json).
+    pairs = (cfg.get("source") or {}).get("corpus_pairs")
+    if pairs:
+        documents = [
+            SourceDocument(
+                provider=adapter.provider,
+                endpoint=str(
+                    paths["raw_dir"] / pair["competition"]
+                    / pair["season"] / "matches.json"
+                ),
+                competition=pair["competition"],
+                season=pair["season"],
+            )
+            for pair in pairs
+        ]
+    else:
+        documents = adapter.list_documents(
+            list(cfg["competitions"]), list(cfg["seasons"])
+        )
 
     results: list[FetchResult] = []
     for document in documents:

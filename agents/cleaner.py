@@ -56,7 +56,13 @@ DEFAULT_STATS_DELAY_SECONDS = 45
 # Durée de mise à disposition d'un match terminé (fin de match + marge).
 MATCH_AVAILABLE_OFFSET_SECONDS = 5760
 # Temps de jeu maximal admissible (90 min + arrêts de jeu bornés).
-MAX_ELAPSED_SECONDS = 5760
+# Adaptation d'exécution (2026-09-29, corpus réel) : 5760 -> 6300 s
+# (105 min) — les données StatsBomb modernes contiennent régulièrement des
+# événements jusqu'à la minute 100-101 (VAR + arrêts de jeu longs) ; ces
+# événements sont authentiques et comptent dans le score officiel (§3.5).
+# Aucun impact anti-fuite : les cutoffs (<= 5100 s) restent largement en
+# deçà ; les événements des arrêts de jeu ne sont visibles d'aucun snapshot.
+MAX_ELAPSED_SECONDS = 6300
 
 # Raisons d'exclusion motivées (§3.4) — codes figés pour l'audit.
 EXCLUSION_STATUS_NOT_FINISHED = "status_not_finished"
@@ -269,68 +275,79 @@ def clean(config_path: str | Path, run_id: str) -> int:
     seen_match_ids: set[str] = set()
     canonical_export: dict[str, Any] = {}
 
-    for comp in cfg["competitions"]:
-        for season in cfg["seasons"]:
-            raw_path = paths["raw_dir"] / comp / season / "matches.json"
-            source_hash = sha256_file(raw_path)
-            input_hashes.append(f"raw:{comp}/{season}:{source_hash}")
-            raw_doc = json.loads(raw_path.read_text(encoding="utf-8"))
-            records = raw_doc.get("matches") or []
-            stratum_key = f"{comp}/{season}"
-            stratum = {"collected": len(records), "included": 0,
-                       "excluded": 0, "duplicates": 0}
-            stratum_export: dict[str, Any] = {"teams": {}, "matches": []}
+    # Périmètre : produit cartésien (grille synthétique) OU paires explicites
+    # `source.corpus_pairs` (corpus réel A1 — cf. docs/frozen_corpus.json).
+    pairs = (cfg.get("source") or {}).get("corpus_pairs")
+    if pairs:
+        comp_season_pairs = [(p["competition"], p["season"]) for p in pairs]
+    else:
+        comp_season_pairs = [
+            (comp, season)
+            for comp in cfg["competitions"]
+            for season in cfg["seasons"]
+        ]
 
-            for record in records:
-                reason = _check_match(record)
-                row = _canonical_match_row(record, source_hash, "included")
-                if row["match_id"] in seen_match_ids:
-                    # Doublon non résolu : même clé canonique depuis la source.
-                    deduplications.append(
-                        {
-                            "source_match_id": record["source_match_id"],
-                            "match_id": row["match_id"],
-                            "key": "match_id",
-                            "resolution": "premier enregistrement conservé",
-                        }
-                    )
-                    stratum["duplicates"] += 1
-                    continue
-                seen_match_ids.add(row["match_id"])
-                if reason is not None:
-                    row["status"] = f"excluded:{reason}"
-                    exclusions.append(
-                        {
-                            "source_match_id": record["source_match_id"],
-                            "match_id": row["match_id"],
-                            "competition": comp,
-                            "season": season,
-                            "reason": reason,
-                        }
-                    )
-                    stratum["excluded"] += 1
-                    match_rows.append(row)
-                    continue
-                stratum["included"] += 1
-                match_rows.append(row)
-                event_rows.extend(_canonical_event_rows(row, record, source_hash))
-                stat_rows.extend(_canonical_stat_rows(row, record, source_hash))
-                stratum_export["teams"][row["home_team_id"]] = row["home_team_name"]
-                stratum_export["teams"][row["away_team_id"]] = row["away_team_name"]
-                stratum_export["matches"].append(
+    for comp, season in comp_season_pairs:
+        raw_path = paths["raw_dir"] / comp / season / "matches.json"
+        source_hash = sha256_file(raw_path)
+        input_hashes.append(f"raw:{comp}/{season}:{source_hash}")
+        raw_doc = json.loads(raw_path.read_text(encoding="utf-8"))
+        records = raw_doc.get("matches") or []
+        stratum_key = f"{comp}/{season}"
+        stratum = {"collected": len(records), "included": 0,
+                   "excluded": 0, "duplicates": 0}
+        stratum_export: dict[str, Any] = {"teams": {}, "matches": []}
+
+        for record in records:
+            reason = _check_match(record)
+            row = _canonical_match_row(record, source_hash, "included")
+            if row["match_id"] in seen_match_ids:
+                # Doublon non résolu : même clé canonique depuis la source.
+                deduplications.append(
                     {
-                        k: v for k, v in row.items()
-                        if k not in ("home_team_name", "away_team_name")
+                        "source_match_id": record["source_match_id"],
+                        "match_id": row["match_id"],
+                        "key": "match_id",
+                        "resolution": "premier enregistrement conservé",
                     }
                 )
-            per_stratum[stratum_key] = stratum
-            canonical_export[f"{comp}/{season}"] = stratum_export
-            log_event(
-                logger, "clean", "ok",
-                f"{stratum_key} inclus={stratum['included']} "
-                f"exclus={stratum['excluded']} doublons={stratum['duplicates']}",
-                run_id=run_id, entity_id=stratum_key,
+                stratum["duplicates"] += 1
+                continue
+            seen_match_ids.add(row["match_id"])
+            if reason is not None:
+                row["status"] = f"excluded:{reason}"
+                exclusions.append(
+                    {
+                        "source_match_id": record["source_match_id"],
+                        "match_id": row["match_id"],
+                        "competition": comp,
+                        "season": season,
+                        "reason": reason,
+                    }
+                )
+                stratum["excluded"] += 1
+                match_rows.append(row)
+                continue
+            stratum["included"] += 1
+            match_rows.append(row)
+            event_rows.extend(_canonical_event_rows(row, record, source_hash))
+            stat_rows.extend(_canonical_stat_rows(row, record, source_hash))
+            stratum_export["teams"][row["home_team_id"]] = row["home_team_name"]
+            stratum_export["teams"][row["away_team_id"]] = row["away_team_name"]
+            stratum_export["matches"].append(
+                {
+                    k: v for k, v in row.items()
+                    if k not in ("home_team_name", "away_team_name")
+                }
             )
+        per_stratum[stratum_key] = stratum
+        canonical_export[f"{comp}/{season}"] = stratum_export
+        log_event(
+            logger, "clean", "ok",
+            f"{stratum_key} inclus={stratum['included']} "
+            f"exclus={stratum['excluded']} doublons={stratum['duplicates']}",
+            run_id=run_id, entity_id=stratum_key,
+        )
 
     # Insertions idempotentes (les statuts exclus restent tracés dans la
     # table matches ; événements/statistiques uniquement pour les inclus).

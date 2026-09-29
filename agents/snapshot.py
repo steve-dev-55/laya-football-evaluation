@@ -39,7 +39,7 @@ from agents.common import (
 )
 from src.core.canonical import canonical_json, state_hash
 from src.core.ids import snapshot_id as compute_snapshot_id
-from src.core.leakage import EVENT_SNAPSHOT_TYPES, audit_snapshot_set, leakage_rate
+from src.core.leakage import EVENT_SNAPSHOT_TYPES, audit_snapshot_set
 from src.storage.database import Database
 
 AGENT_NAME = "snapshot"
@@ -290,9 +290,28 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
 
     cutoffs = [int(c) for c in cfg["cutoffs_seconds"]]
     tiers = list(cfg["information_tiers"])
-    snapshots: list[dict[str, Any]] = []
+
+    # Mémoire/complexité (corpus réel : ~28 800 snapshots) : traitement PAR
+    # MATCH avec audit anti-fuite et upsert incrémentaux. Équivalence stricte
+    # avec l'accumulation intégrale : (1) un état n'embarque que les
+    # événements de son propre match (check_no_future_events filtre par
+    # match_id) ; (2) les matchs canoniques priment sur les contextes dans
+    # check_pre_match_sources (correctif B2) et toutes les sources pré-match
+    # figurent dans la table matches — les contextes de repli ne servent
+    # jamais ; (3) bulk_upsert par match est idempotent (clé snapshot_id).
+    n_total = 0
+    n_blocked = 0
+    by_tier: dict[str, int] = {}
+    by_cutoff: dict[int, int] = {}
+    per_snapshot: dict[str, Any] = {}
+    sql_columns = (
+        "snapshot_id", "match_id", "cutoff_seconds", "cutoff_timestamp",
+        "snapshot_type", "information_tier", "state_json", "state_hash",
+        "validation_status",
+    )
 
     for match in matches:
+        match_snapshots: list[dict[str, Any]] = []
         events = events_by_match.get(match["match_id"], [])
         stats = stats_by_match.get(match["match_id"], [])
         contexts = contexts_by_match.get(match["match_id"], {})
@@ -310,7 +329,7 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
             cutoff_ts = add_seconds(kickoff, cutoff_s)
             snapshot_type = "pre_match" if cutoff_s == 0 else "fixed"
             for tier in tiers:
-                snapshots.append(
+                match_snapshots.append(
                     _make_snapshot(
                         match, teams, tier, cutoff_s, cutoff_ts, "main",
                         snapshot_type, contexts, events, stats, [],
@@ -330,7 +349,7 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
             cutoff_ts = add_seconds(kickoff, elapsed + EVENT_DELAY_SECONDS)
             for event in group:
                 for tier in tiers:
-                    snapshots.append(
+                    match_snapshots.append(
                         _make_snapshot(
                             match, teams, tier, elapsed, cutoff_ts,
                             f"event:{event['event_id']}", event["event_type"],
@@ -341,7 +360,7 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
                 # Décision annexe B : ordre source conservé + version
                 # agrégée de contrôle si plusieurs événements coïncident.
                 for tier in tiers:
-                    snapshots.append(
+                    match_snapshots.append(
                         _make_snapshot(
                             match, teams, tier, elapsed, cutoff_ts,
                             f"event:agg:{elapsed}", "aggregated",
@@ -350,49 +369,43 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
                         )
                     )
 
-    # Tests anti-fuite sur 100 % des snapshots (§5.5) — src.core.leakage.
-    reports = audit_snapshot_set(
-        snapshots, events=all_events, contexts=all_contexts,
-        matches_by_id=matches_by_id,
-    )
-    per_snapshot: dict[str, Any] = {}
-    for snap in snapshots:
-        report = reports[snap["snapshot_id"]]
-        snap["validation_status"] = (
-            "validated" if not report.has_leakage else "blocked"
+        # Tests anti-fuite sur 100 % des snapshots du match (§5.5) —
+        # src.core.leakage ; événements du match courant (équivalence
+        # démontrée en tête de boucle) et matchs canoniques de la base.
+        reports = audit_snapshot_set(
+            match_snapshots, events=events_by_match.get(match["match_id"], []),
+            contexts=(), matches_by_id=matches_by_id,
         )
-        per_snapshot[snap["snapshot_id"]] = {
-            "status": snap["validation_status"],
-            "violations": report.violations,
-        }
+        rows: list[dict[str, Any]] = []
+        for snap in match_snapshots:
+            report = reports[snap["snapshot_id"]]
+            snap["validation_status"] = (
+                "validated" if not report.has_leakage else "blocked"
+            )
+            per_snapshot[snap["snapshot_id"]] = {
+                "status": snap["validation_status"],
+                "violations": report.violations,
+            }
+            if snap["validation_status"] == "blocked":
+                n_blocked += 1
+            by_tier[snap["information_tier"]] = (
+                by_tier.get(snap["information_tier"], 0) + 1
+            )
+            by_cutoff[snap["cutoff_seconds"]] = (
+                by_cutoff.get(snap["cutoff_seconds"], 0) + 1
+            )
+            rows.append({k: snap[k] for k in sql_columns})
+        bulk_upsert(db, "match_snapshots", rows)
+        n_total += len(match_snapshots)
 
-    bulk_upsert(
-        db,
-        "match_snapshots",
-        [
-            {k: s[k] for k in (
-                "snapshot_id", "match_id", "cutoff_seconds", "cutoff_timestamp",
-                "snapshot_type", "information_tier", "state_json", "state_hash",
-                "validation_status",
-            )}
-            for s in snapshots
-        ],
-    )
-
-    rate = leakage_rate(reports)
-    n_blocked = sum(1 for s in snapshots if s["validation_status"] == "blocked")
+    rate = n_blocked / max(n_total, 1)
     max_leak = float(cfg["thresholds"]["max_snapshot_leakage_rate"])
     status = "blocked" if (n_blocked > 0 or rate > max_leak) else "validated"
-    by_tier: dict[str, int] = {}
-    by_cutoff: dict[int, int] = {}
-    for snap in snapshots:
-        by_tier[snap["information_tier"]] = by_tier.get(snap["information_tier"], 0) + 1
-        by_cutoff[snap["cutoff_seconds"]] = by_cutoff.get(snap["cutoff_seconds"], 0) + 1
 
     payload = {
         "summary": {
-            "n_snapshots": len(snapshots),
-            "n_validated": len(snapshots) - n_blocked,
+            "n_snapshots": n_total,
+            "n_validated": n_total - n_blocked,
             "n_blocked": n_blocked,
             "leakage_rate": rate,
             "by_tier": by_tier,
@@ -420,14 +433,14 @@ def build_snapshots(config_path: str | Path, run_id: str) -> int:
         producer=PRODUCER,
         input_hashes=input_hashes,
         status=status,
-        record_count=len(snapshots) - n_blocked,
+        record_count=n_total - n_blocked,
         warnings=[] if n_blocked == 0 else
         [f"{n_blocked} snapshots avec fuite détectée (§5.5)"],
         errors=[] if n_blocked == 0 else ["tests anti-fuite en échec (§14.5)"],
     )
     log_event(
         logger, "artifact", status,
-        f"snapshot_validation.json snapshots={len(snapshots)} fuite={rate:.4f}",
+        f"snapshot_validation.json snapshots={n_total} fuite={rate:.4f}",
         run_id=run_id,
     )
     if status == "blocked":

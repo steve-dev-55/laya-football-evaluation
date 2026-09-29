@@ -1,0 +1,106 @@
+# Configuration de l'expérience RÉELLE — Laya Football Evaluation (protocole v2.0.0).
+#
+# Corpus figé : StatsBomb Open Data @ 4b73468 (docs/frozen_corpus.json, amendement A1).
+# Split : chronologique 50/50 par compétition (amendement A2, manifeste).
+# Ce fichier est le point d'entrée du pipeline §16 sur données réelles :
+#   python -m agents.orchestrator --config configs/experiment_real.yaml
+#
+# ADAPTATIONS D'EXÉCUTION (infrastructure, documentées — le plan scientifique
+# §8/§11/§12 et les seuils de blocage sont inchangés) :
+# - source.corpus_pairs : le corpus réel n'est pas un produit cartésien
+#   (chaque compétition existe pour une seule saison, A1) ;
+# - split.mode : amendement A2 (figé avant enregistrement OSF) ;
+# - chemins dédiés data/real/ pour ne pas contaminer le smoke run synthétique.
+
+experiment_id: laya-football-002-real
+
+# --- Périmètre (§3.1, A1 : paires réelles du corpus figé) ----------------------
+competitions:
+  - Premier League
+  - La Liga
+  - Serie A
+  - Ligue 1
+  - Indian Super League
+  - Liga F
+  - NWSL
+  - FA WSL
+  - Frauen Bundesliga
+  - Serie A Women
+seasons:
+  - "2015-2016"
+  - "2021-2022"
+  - "2023"
+  - "2023-2024"
+
+# --- Plan de snapshots (§5, §6.1) ---------------------------------------------
+cutoffs_seconds: [0, 900, 1800, 2700, 3600, 4500, 5100]
+information_tiers: [A, B, C]
+
+# --- Reproductibilité (§17) ---------------------------------------------------
+seed: 20260925
+
+# --- Découpage temporel (§11.1) — AMENDEMENT A2 --------------------------------
+split:
+  mode: chronological_per_competition
+  train_fraction: 0.5
+  train_seasons: []        # inutilisé en mode A2 (compatibilité charge_config)
+  test_seasons: []         # inutilisé en mode A2 (compatibilité charge_config)
+
+# --- Seuils de blocage §11.4 (INCHANGÉS) ---------------------------------------
+thresholds:
+  max_snapshot_leakage_rate: 0.05
+  max_stratum_missing_rate: 0.10
+  max_invalid_response_rate: 0.05
+
+# --- Plan statistique (§12.5, INCHANGÉ) -----------------------------------------
+bootstrap:
+  replicates: 2000
+  alpha: 0.05
+  ece_bins: 15
+
+primary_metrics:
+  1x2: log_loss
+  score_bucket: log_loss
+  corners: crps
+  yellow_cards: crps
+
+# --- Système sous test (§2) ----------------------------------------------------
+# ÉTAPE 4a : run de validation d'infrastructure sur données réelles avec le
+# client mock déterministe. Le client SDK réel (§2.1) sera substitué pour le
+# run confirmatoire — model_version sera alors mis à jour.
+laya:
+  client: mock
+  task_version: v1
+  model_version: laya-mock-1.0.0-real-corpus
+
+repetition_audit:
+  k: 5
+  min_share: 0.10
+
+# --- Source (§3.2, A1) -----------------------------------------------------------
+source:
+  adapter: local_file
+  license: "CC BY-NC-SA 4.0 (StatsBomb Open Data, usage non commercial)"
+  corpus_pairs:
+    - {competition: Premier League,     season: "2015-2016"}
+    - {competition: La Liga,            season: "2015-2016"}
+    - {competition: Serie A,            season: "2015-2016"}
+    - {competition: Ligue 1,            season: "2015-2016"}
+    - {competition: Indian Super League, season: "2021-2022"}
+    - {competition: Liga F,             season: "2023-2024"}
+    - {competition: NWSL,               season: "2023"}
+    - {competition: FA WSL,             season: "2023-2024"}
+    - {competition: Frauen Bundesliga,  season: "2023-2024"}
+    - {competition: Serie A Women,      season: "2023-2024"}
+
+# --- Chemins dédiés au run réel (§4.1) -------------------------------------------
+paths:
+  db: data/real/laya_experiment.db
+  raw_dir: data/raw
+  canonical_dir: data/real/canonical
+  artifacts_dir: data/real/artifacts
+  predictions_dir: data/real/predictions
+  evaluation_dir: data/real/evaluation
+  reports_dir: reports/real
+  logs_dir: logs/real
+  manifest: experiment_manifest.json

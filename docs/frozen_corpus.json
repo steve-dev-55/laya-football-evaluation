@@ -1,51 +1,163 @@
 {
-  "frozen_on": "2026-09-27",
-  "primary_source": {
-    "name": "StatsBomb Open Data",
-    "url": "https://github.com/statsbomb/open-data",
-    "frozen_commit": "4b73468fc5b0f1950f9f66fada70ad3a4f9327cb",
-    "commit_date": "2026-09-07",
-    "license": "CC BY-NC-SA 4.0 (non-commercial use)",
-    "usage": "scientific evaluation, non-commercial"
+ "frozen_on": "2026-09-27",
+ "primary_source": {
+  "name": "StatsBomb Open Data",
+  "url": "https://github.com/statsbomb/open-data",
+  "frozen_commit": "4b73468fc5b0f1950f9f66fada70ad3a4f9327cb",
+  "commit_date": "2026-09-07",
+  "license": "CC BY-NC-SA 4.0 (non-commercial use)",
+  "usage": "scientific evaluation, non-commercial"
+ },
+ "selection_rule": "All complete seasons available in the frozen source at freeze time; no competition offers three complete consecutive seasons, so the three complete available seasons are retained (amendment A1, documented before OSF registration).",
+ "corpus": [
+  {
+   "season": "2015/2016",
+   "competition": "Premier League",
+   "competition_id": 2,
+   "season_id": 27,
+   "matches": 380,
+   "gender": "male",
+   "block": "1"
   },
-  "selection_rule": "All complete seasons available in the frozen source at freeze time; no competition offers three complete consecutive seasons, so the three complete available seasons are retained (amendment A1, documented before OSF registration).",
-  "corpus": [
-    {"season": "2015/2016", "competition": "Premier League", "competition_id": 2, "season_id": 27, "matches": 380, "gender": "male", "block": "1"},
-    {"season": "2015/2016", "competition": "La Liga", "competition_id": 11, "season_id": 27, "matches": 380, "gender": "male", "block": "1"},
-    {"season": "2015/2016", "competition": "Serie A", "competition_id": 12, "season_id": 27, "matches": 380, "gender": "male", "block": "1"},
-    {"season": "2015/2016", "competition": "Ligue 1", "competition_id": 7, "season_id": 27, "matches": 377, "gender": "male", "block": "1", "note": "377/380 present in source (0.8% missing, below the 10% blocking threshold)"},
-    {"season": "2021/2022", "competition": "Indian Super League", "competition_id": 1238, "season_id": 107, "matches": 115, "gender": "male", "block": "1"},
-    {"season": "2023/2024", "competition": "Liga F", "competition_id": 182, "season_id": 281, "matches": 240, "gender": "female", "block": "1"},
-    {"season": "2023", "competition": "NWSL", "competition_id": 49, "season_id": 281, "matches": 137, "gender": "female", "block": "1", "note": "calendar-year league (2023 season) incl. playoffs; grouped in the 2023/24 temporal block"},
-    {"season": "2023/2024", "competition": "FA Women's Super League", "competition_id": 37, "season_id": 281, "matches": 132, "gender": "female", "block": "1"},
-    {"season": "2023/2024", "competition": "Frauen Bundesliga", "competition_id": 135, "season_id": 281, "matches": 132, "gender": "female", "block": "1"},
-    {"season": "2023/2024", "competition": "Serie A Women", "competition_id": 131, "season_id": 281, "matches": 130, "gender": "female", "block": "1"}
-  ],
-  "totals": {
-    "matches": 2403,
-    "seasons": 3,
-    "competitions": 10,
-    "expected_test_matches_after_split": 1201,
-    "expected_snapshots_at_K12": 14412
+  {
+   "season": "2015/2016",
+   "competition": "La Liga",
+   "competition_id": 11,
+   "season_id": 27,
+   "matches": 380,
+   "gender": "male",
+   "block": "1"
   },
-  "excluded_from_consideration": [
-    {"competition": "1. Bundesliga", "reason": "no complete season in source (34/306 in 2015/16, 34/306 in 2023/24)"},
-    {"competition": "UEFA Champions League", "reason": "finals only (1 match per season)"},
-    {"competition": "FIFA World Cup / UEFA Euro / Copa America / AFCON", "reason": "tournaments, not league seasons; retained as fallback only"},
-    {"competition": "La Liga 2004/05-2020/21", "reason": "Messi-era seasons are partial (7-38 matches per season); only 2015/16 is complete"},
-    {"competition": "WSL 2018/19, 2019/20, 2020/21", "reason": "partial (107/132), COVID-curtailed (87), near-complete (131/132); only 2023/24 is complete"}
-  ],
-  "field_coverage_verified": {
-    "verified_on": "2026-09-27",
-    "method": "structural inspection of sample matches (one per corpus block); no outcome-level data observed or analyzed",
-    "fields": {
-      "goals": "Shot events with outcome + Goal events",
-      "yellow_red_cards": "foul_committed.card / bad_behaviour.card objects",
-      "corners": "pass events carrying corner information",
-      "substitutions": "Substitution-type events",
-      "xg": "shot.statsbomb_xg (present on all inspected shots)",
-      "possession": "possession / possession_team fields",
-      "timestamps": "period, minute, second, timestamp per event"
-    }
+  {
+   "season": "2015/2016",
+   "competition": "Serie A",
+   "competition_id": 12,
+   "season_id": 27,
+   "matches": 380,
+   "gender": "male",
+   "block": "1"
+  },
+  {
+   "season": "2015/2016",
+   "competition": "Ligue 1",
+   "competition_id": 7,
+   "season_id": 27,
+   "matches": 377,
+   "gender": "male",
+   "block": "1",
+   "note": "377/380 present in source (0.8% missing, below the 10% blocking threshold)"
+  },
+  {
+   "season": "2021/2022",
+   "competition": "Indian Super League",
+   "competition_id": 1238,
+   "season_id": 108,
+   "matches": 115,
+   "gender": "male",
+   "block": "1"
+  },
+  {
+   "season": "2023/2024",
+   "competition": "Liga F",
+   "competition_id": 182,
+   "season_id": 281,
+   "matches": 240,
+   "gender": "female",
+   "block": "1"
+  },
+  {
+   "season": "2023",
+   "competition": "NWSL",
+   "competition_id": 49,
+   "season_id": 107,
+   "matches": 137,
+   "gender": "female",
+   "block": "1",
+   "note": "calendar-year league (2023 season) incl. playoffs; grouped in the 2023/24 temporal block"
+  },
+  {
+   "season": "2023/2024",
+   "competition": "FA Women's Super League",
+   "competition_id": 37,
+   "season_id": 281,
+   "matches": 132,
+   "gender": "female",
+   "block": "1"
+  },
+  {
+   "season": "2023/2024",
+   "competition": "Frauen Bundesliga",
+   "competition_id": 135,
+   "season_id": 281,
+   "matches": 132,
+   "gender": "female",
+   "block": "1"
+  },
+  {
+   "season": "2023/2024",
+   "competition": "Serie A Women",
+   "competition_id": 131,
+   "season_id": 281,
+   "matches": 130,
+   "gender": "female",
+   "block": "1"
   }
+ ],
+ "totals": {
+  "matches": 2403,
+  "seasons": 3,
+  "competitions": 10,
+  "expected_test_matches_after_split": 1201,
+  "expected_snapshots_at_K12": 14412
+ },
+ "excluded_from_consideration": [
+  {
+   "competition": "1. Bundesliga",
+   "reason": "no complete season in source (34/306 in 2015/16, 34/306 in 2023/24)"
+  },
+  {
+   "competition": "UEFA Champions League",
+   "reason": "finals only (1 match per season)"
+  },
+  {
+   "competition": "FIFA World Cup / UEFA Euro / Copa America / AFCON",
+   "reason": "tournaments, not league seasons; retained as fallback only"
+  },
+  {
+   "competition": "La Liga 2004/05-2020/21",
+   "reason": "Messi-era seasons are partial (7-38 matches per season); only 2015/16 is complete"
+  },
+  {
+   "competition": "WSL 2018/19, 2019/20, 2020/21",
+   "reason": "partial (107/132), COVID-curtailed (87), near-complete (131/132); only 2023/24 is complete"
+  }
+ ],
+ "field_coverage_verified": {
+  "verified_on": "2026-09-27",
+  "method": "structural inspection of sample matches (one per corpus block); no outcome-level data observed or analyzed",
+  "fields": {
+   "goals": "Shot events with outcome + Goal events",
+   "yellow_red_cards": "foul_committed.card / bad_behaviour.card objects",
+   "corners": "pass events carrying corner information",
+   "substitutions": "Substitution-type events",
+   "xg": "shot.statsbomb_xg (present on all inspected shots)",
+   "possession": "possession / possession_team fields",
+   "timestamps": "period, minute, second, timestamp per event"
+  }
+ },
+ "erratum": {
+  "date": "2026-09-29",
+  "issue": "season_id transcription errors for two entries (no scope change)",
+  "corrections": [
+   {
+    "competition": "Indian Super League 2021/2022",
+    "change": "season_id 107 -> 108"
+   },
+   {
+    "competition": "NWSL 2023",
+    "change": "season_id 281 -> 107"
+   }
+  ],
+  "justification": "Material identifier typo discovered at download time; the scientific scope (same competitions and seasons) is unchanged. Counts were re-verified against the corrected identifiers."
+ }
 }
