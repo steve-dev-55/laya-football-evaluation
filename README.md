@@ -6,12 +6,18 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs: CC-BY 4.0](https://img.shields.io/badge/Docs-CC--BY_204.0-blue.svg)](LICENSE-CC-BY-4.0)
 [![Protocol](https://img.shields.io/badge/Protocol-v2.0.0-preregistered-purple.svg)](PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md)
-[![Tests](https://img.shields.io/badge/tests-130%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-142%20passed-brightgreen.svg)](tests/)
 
-> 📌 **Status — Stage 1 (preregistration).** The protocol, reference
-> implementation and full test suite are published **before** running the
-> experiment on real data. Results will follow in a separate release
-> (`v1.0.0-results`). See [docs/publication_process.md](docs/publication_process.md).
+> 📌 **Status — Stage 4 (real execution).** Infrastructure validated on the
+> real frozen corpus (2 401 matches collected, 125 340 snapshots, all §11.4
+> gates green — run `run_real_001`), and the **real Laya SDK is now
+> integrated** with a pinned, SHA-256-verified checkpoint
+> (`laya` 0.3.21 · `convaiinnovations/laya-multilingual` @ `e4e9ddf2`).
+> An integration pilot on real states is documented in
+> [docs/amendments/A3_execution_notes.md](docs/amendments/A3_execution_notes.md);
+> the full confirmatory run ships as `configs/experiment_real_sdk.yaml`
+> (results → release `v1.0.0-results`). See
+> [docs/publication_process.md](docs/publication_process.md).
 >
 > 📝 **Preregistered on OSF**: [10.17605/OSF.IO/TPSQB](https://doi.org/10.17605/OSF.IO/TPSQB)
 > — frozen corpus: 2 403 matches (StatsBomb Open Data, three complete seasons,

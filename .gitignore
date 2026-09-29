@@ -17,10 +17,14 @@ data/canonical/
 data/snapshots/
 data/predictions/
 data/evaluation/
+data/real/
+data/artifacts/
 *.db
 *.sqlite*
 logs/*.log
+logs/real/
 reports/generated/
+reports/real/*.json
 
 # Secrets — JAMAIS commités
 .env

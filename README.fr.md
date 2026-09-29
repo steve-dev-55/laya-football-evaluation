@@ -2,10 +2,16 @@
 
 **Protocole pré-enregistré multi-agents pour évaluer un moteur de décision IA comme prédicteur probabiliste de football en temps réel.**
 
-> 📌 **Statut — Étape 1 (pré-enregistrement).** Le protocole, l'implémentation
-> de référence et les tests sont publiés **avant** l'exécution de l'étude sur
-> données réelles. Les résultats suivront dans une release séparée
-> (`v1.0.0-results`). Voir [docs/publication_process.md](docs/publication_process.md).
+> 📌 **Statut — Étape 4 (exécution réelle).** Infrastructure validée sur le
+> corpus figé réel (2 401 matchs, 125 340 snapshots, tous les seuils §11.4
+> au vert — run `run_real_001`), et le **SDK Laya réel est intégré** avec un
+> checkpoint épinglé et vérifié par SHA-256 (`laya` 0.3.21 ·
+> `convaiinnovations/laya-multilingual` @ `e4e9ddf2`). Pilot d'intégration
+> sur états réels documenté dans
+> [docs/amendments/A3_execution_notes.md](docs/amendments/A3_execution_notes.md) ;
+> le run confirmatoire complet est prêt
+> (`configs/experiment_real_sdk.yaml`) — résultats → release
+> `v1.0.0-results`. Voir [docs/publication_process.md](docs/publication_process.md).
 > Documentation complète en anglais : [README.md](README.md) ·
 > Protocole original (français, faisant foi) : [PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md](PROTOCOLE_LAYA_FOOTBALL_AGENTS_IA.md)
 

@@ -44,7 +44,7 @@ preprint 8-12 p. · phasage pré-enregistrement d'abord · code seul (pas de
 données) · CI complète · angle « agents IA temps réel pour la décision
 probabiliste continue » · Laya garde son nom.
 
-## Étape 2 — Publication GitHub publique (EN ATTENTE)
+## Étape 2 — Publication GitHub publique (TERMINÉE)
 
 À exécuter dès réception : **PAT GitHub (fine-grained, scope repo,
 expiration courte)** + **nom/affiliation réels** + **username GitHub**.
@@ -69,7 +69,7 @@ Sécurité : le PAT est utilisé uniquement le temps du push, jamais commité,
 stocké uniquement en variable d'environnement de session ; l'utilisateur
 peut le révoquer immédiatement après.
 
-## Étape 3 — Ancrages scientifiques (À FAIRE)
+## Étape 3 — Ancrages scientifiques (TERMINÉE — OSF)
 
 - **OSF** : coller `docs/preregistration_osf.md` dans un nouveau
   pré-enregistrement (category : Preregistration ; DOI OSF obtenu).
@@ -83,26 +83,43 @@ peut le révoquer immédiatement après.
 - **arXiv** : le preprint complet (avec résultats) sera soumis à l'étape 4
   (stat.AP ou cs.LG). Le source est compatible pdflatex+bibtex standard.
 
-## Étape 4 — Exécution du protocole (À FAIRE)
+## Étape 4 — Exécution du protocole (EN COURS — intégration SDK réelle)
 
-Prérequis à figer AVANT collecte (annexe B — actuellement marqués PINNED) :
+**Avancement réel (2026-09-29) :**
 
-1. **Source de données** : StatsBomb / API-Football / FBref (vérifier la
-   licence, documenter fournisseur/endpoint/date/hash — §3.2) ;
-2. **Modèle Laya réel** : package, version installée, hash du checkpoint,
-   variante (§2.1) + implémenter `LayaClient` réel (SDK) à la place du mock ;
-3. Valider le smoke test SDK (§2.2) avant toute collecte.
+- ✅ Source de données figée : StatsBomb Open Data @ `4b73468` (corpus
+  `docs/frozen_corpus.json`, 2 403 matchs visés / 2 401 collectés, CC
+  BY-NC-SA) ;
+- ✅ Pipeline §16 validé de bout en bout sur le corpus réel avec le client
+  mock (run `run_real_001` : 125 340 snapshots, 0 fuite, 0 strate
+  manquante, hypothèses 5/5 évaluées — rapport `reports/real/final_report.md`) ;
+- ✅ **SDK Laya réel intégré** (`RealLayaClient`, `agents/laya.py`) :
+  checkpoint épinglé et hashé — `laya` 0.3.21 ·
+  `convaiinnovations/laya-multilingual` @ `e4e9ddf2` (model.safetensors
+  sha256 `9d628fd9…f204`, vérifié au chargement) ;
+- ✅ Écarts d'exécution documentés : `docs/amendments/A3_execution_notes.md`
+  (D1 tolérance de somme 2e-3 — arrondi 4 décimales du SDK ; D2 max_len
+  8192 confirmatoire / 2048 pilot ; D3 pilot échantillonné — contrainte
+  CPU) ;
+- ✅ Pilot d'intégration exécuté sur états réels (`run_sdk_pilot_001`,
+  147 snapshots stratifiés + audit de répétition k=5 —
+  `reports/real/pilot_sdk_summary.{md,json}`) ;
+- ⏳ **Reste à exécuter** : le run confirmatoire complet
+  (`configs/experiment_real_sdk.yaml` — ~62 670 snapshots de test + audit)
+  sur matériel adapté (GPU T4 recommandé, ~1-3 h ; cf. A3 §8), puis
+  baselines + évaluateur + analyste sous le même `run_id`, release
+  `v1.0.0-results`, mise à jour preprint + arXiv + Zenodo.
 
-Puis exécuter : `bash scripts/run_pipeline.sh RUN_ID` — le pipeline applique
-les seuils de blocage §11.4 automatiquement. Après validation, créer la
-release `v1.0.0-results`, compléter le preprint (résultats), soumettre à
-arXiv, mettre à jour Zenodo (nouveau DOI).
+Historique des prérequis (annexe B) : figés avant collecte et respectés —
+source StatsBomb (fournisseur/commit/licence documentés §3.2), checkpoint
+figé et hashé avant le run (§2.1), smoke test SDK validé avant la collecte
+(§2.2).
 
 **Règle anti-HARKing** : tout écart découvert après consultation des
 résultats = analyse post hoc, exclue des conclusions confirmatoires
 (annexe B).
 
-## Étape 5 — Diffusion (À FAIRE)
+## Étape 5 — Diffusion (PARTIELLEMENT PRÉPARÉE)
 
 1. **X/LinkedIn** : utiliser `docs/diffusion/post_x_{EN,FR}.md` et
    `post_linkedin_{EN,FR}.md` (recompter les tweets après remplacement des

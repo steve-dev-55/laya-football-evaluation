@@ -84,7 +84,11 @@ TASK_TARGETS = {
 
 # --- Validateur de réponse (§8.6) ------------------------------------------
 
-# Tolérance de somme imposée par le protocole
+# Tolérance de somme imposée par le protocole. Le SDK réel (laya>=0.3) publie
+# des probabilités arrondies à 4 décimales : la somme d'une réponse reçue peut
+# dévier de 1 jusqu'à ~1.1e-3 (22 options x 5e-5). La tolérance reste 1e-6 par
+# défaut (mock, tests) ; le run SDK réel passe une tolérance adaptée (2e-3),
+# documentée comme écart d'exécution D1 — sans jamais renormaliser (§8.6).
 PROB_SUM_TOLERANCE = 1e-6
 
 
@@ -104,11 +108,12 @@ def validate_distribution(
     task: str,
     *,
     allow_keys: tuple[str, ...] = ("probabilities",),
+    sum_tolerance: float = PROB_SUM_TOLERANCE,
 ) -> dict[str, float]:
     """Valide la distribution d'une tâche typée selon §8.6.
 
     Étapes : 2 (clés), 3 (probabilités finies dans [0,1]),
-    4 (somme = 1 à 1e-6 près), 5 (ni catégorie manquante ni dupliquée),
+    4 (somme = 1 à `sum_tolerance` près), 5 (ni catégorie manquante ni dupliquée),
     6 (cohérence de l'espérance avec la convention de queue).
 
     Returns:
@@ -161,11 +166,12 @@ def validate_distribution(
             )
         dist[cat] = v
 
-    # 4 — somme à 1 à 1e-6 près ; renormalisation interdite
+    # 4 — somme à 1 à la tolérance près ; renormalisation interdite
     total = sum(dist.values())
-    if abs(total - 1.0) > PROB_SUM_TOLERANCE:
+    if abs(total - 1.0) > sum_tolerance:
         raise ValidationError(
-            ErrorCode.INVALID_PROBABILITY_SUM, f"somme={total!r} (tolérance 1e-6)"
+            ErrorCode.INVALID_PROBABILITY_SUM,
+            f"somme={total!r} (tolérance {sum_tolerance})",
         )
 
     # 6 — cohérence de l'espérance avec la convention de queue
